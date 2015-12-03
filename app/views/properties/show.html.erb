@@ -7,7 +7,9 @@
 
 <p>
   <strong>Category:</strong>
-  <%= @property.category_id %>
+  <% @property.categories.each do |category| %>
+  <%= category.name %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_property_path(@property) %> |
