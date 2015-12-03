@@ -8,6 +8,15 @@
   <% end %>
 </p>
 
+  <strong>Category:</strong>
+  
+	<% @ticket.properties.each do |property| %>
+		<% property.categories.each do |category| %>
+  			<%= category.name %>
+  		<% end %>
+  	<% end %>
+</p>
+
 <p>
   <strong>Event status:</strong>
   <%= @ticket.event_status %>

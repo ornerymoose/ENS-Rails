@@ -15,7 +15,8 @@
     <%= f.label :property_id %><br>
     <%#= f.number_field :property_id %>
     <%#= collection_check_boxes(:ticket, :property_ids, Property.all, :id, :name) do |b| %>
-    <%= hidden_field_tag :ticket, :property_ids %>
+    <%= hidden_field_tag "item", :category_ids %>
+    <%#= hidden_field(:ticket, :property_ids, {class: "category-hidden"}) %>
     <%= collection_select(:ticket, :property_ids, Property.all, :id, :name, prompt: true) %>
       
   </div>
