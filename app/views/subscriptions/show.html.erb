@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subscription.name %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @subscription.phone_number %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%#= @subscription.category_id %>
+
+  <% @subscription.categories.each do |category| %>
+  	<%= category.name %>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+<%= link_to 'Back', subscriptions_path %>

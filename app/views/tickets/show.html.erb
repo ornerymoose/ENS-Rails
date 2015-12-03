@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Property:</strong>
+  <%#= @ticket.property_id %>
+   <% @ticket.properties.each do |property| %>
+  	<%= property.name %>
+  <% end %>
+</p>
+
+<p>
+  <strong>Event status:</strong>
+  <%= @ticket.event_status %>
+</p>
+
+<p>
+  <strong>Customers affected:</strong>
+  <%= @ticket.customers_affected %>
+</p>
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back', tickets_path %>

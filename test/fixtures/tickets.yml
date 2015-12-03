@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  property_id: 1
+  event_status: MyString
+  customers_affected: MyString
+
+two:
+  property_id: 1
+  event_status: MyString
+  customers_affected: MyString
