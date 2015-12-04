@@ -15,3 +15,6 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore Files with Sensitive Information (ENV Vars Used Anyways)
+config/ldap.yml

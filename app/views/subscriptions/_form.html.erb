@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :value => current_user.email %>
   </div>
   <div class="field">
     <%= f.label :phone_number %><br>
