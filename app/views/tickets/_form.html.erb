@@ -13,6 +13,7 @@
 
   <div class="field">
     <%#= @sub_cat_list %>
+    <%= @sub_user.name %>
     <%= f.label :property_id %><br>
     <%#= f.number_field :property_id %>
     <%#= collection_check_boxes(:ticket, :property_ids, Property.all, :id, :name) do |b| %>

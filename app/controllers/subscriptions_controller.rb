@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
-
+  before_action :grab_subscription
   # GET /subscriptions
   # GET /subscriptions.json
   def index
@@ -19,6 +19,7 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions/1/edit
   def edit
+    #@current_sub_user = Subscription.find_by_name(current_user.email)
   end
 
   # POST /subscriptions
@@ -65,6 +66,10 @@ class SubscriptionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_subscription
       @subscription = Subscription.find(params[:id])
+    end
+
+    def grab_subscription
+        @sub_user = Subscription.find_by_name(current_user.email)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
