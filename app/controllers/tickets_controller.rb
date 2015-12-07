@@ -1,10 +1,12 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
-
+  before_action :grab_subscription
   # GET /tickets
   # GET /tickets.json
   def index
     @tickets = Ticket.all
+
+    #@sub_user = Subscription.find_by_name(current_user.email)
   end
 
   # GET /tickets/1
@@ -16,7 +18,7 @@ class TicketsController < ApplicationController
   def new
     @ticket = Ticket.new
 
-    @sub_user = Subscription.find_by_name(current_user.email)
+    #@sub_user = Subscription.find_by_name(current_user.email)
 
     # @sub_user.categories.each do |category|
     #     @sub_user_categories = category.name
@@ -40,16 +42,15 @@ def create
             format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
             format.json { render :show, status: :created, location: @ticket }
 
-            @sub_user = Subscription.find_by_name(current_user.email)
+            #@sub_user = Subscription.find_by_name(current_user.email)
 
             @people = {
                 "#{@sub_user.phone_number}" => "#{@sub_user.name}"                    
             }
 
-            twilio_sid = "<%= ENV['TWILIO_SID'] %>"
-            twilio_token = "<%= ENV['TWILIO_TOKEN'] %>"
-            twilio_phone_number = "<%= ENV['TWILIO_PHONE_NUMBER'] %>"
-            @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
+            twilio_sid = ENV["TWILIO_SID"]
+            twilio_token = ENV["TWILIO_TOKEN"]
+            twilio_phone_number = ENV["TWILIO_PHONE_NUMBER"]
 
             @ticket.properties.each do |property|
                 property.categories.each do |category|
@@ -62,15 +63,18 @@ def create
                 @sub_cat_list << category.name
             end
 
+            
+            @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
+
+
             if @sub_cat_list.include?(@ticket_category)
-                #send email
-                @people.each do |key, value|
-                    @twilio_client.account.sms.messages.create(
-                        :from => "+1#{twilio_phone_number}",
-                        :to => key,
-                        :body => "Hello #{value}, a ticket in category #{@ticket_category} has been created for ENS. Please check your email for details."
-                    )
-                end
+                    @people.each do |key, value|
+                        @twilio_client.account.messages.create(
+                            :from => "+1#{twilio_phone_number}",
+                            :to => key,
+                            :body => "Hello #{value}, a ticket in category #{@ticket_category} has been created for ENS. Please check your email for details."
+                        )
+                    end
             else 
                 #dont send email
             end
@@ -111,6 +115,11 @@ end
     def set_ticket
       @ticket = Ticket.find(params[:id])
     end
+
+    def grab_subscription
+        @sub_user = Subscription.find_by_name(current_user.email)
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
