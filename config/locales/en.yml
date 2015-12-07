@@ -21,3 +21,8 @@
 
 en:
   hello: "Hello world"
+  helpers:
+    submit:
+      Ticket:
+        create: "Create Ticket"
+        update: "Update Ticket"
