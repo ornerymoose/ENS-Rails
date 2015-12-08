@@ -58,21 +58,36 @@ def create
                 end
             end
 
+            @ticket.properties.each do |property|
+                @property_name = property.name
+            end
+
             @sub_cat_list = []
             @sub_user.categories.each do |category|
                 @sub_cat_list << category.name
             end
 
-            
+            #attributes to be put in email for ticket
+            @created_at = @ticket.created_at
+            @event_severity = @ticket.event_severity.downcase
+            @event_status = @ticket.event_status
+            @event_category = @ticket.event_category
+            @customers_affected = @ticket.customers_affected
+            @heat_ticket_number = @ticket.heat_ticket_number
+            @bridge_number = @ticket.bridge_number
+
             @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
 
+            #UserNotifier.send_signup_email(@sub_user.name).deliver
 
             if @sub_cat_list.include?(@ticket_category)
+                UserNotifier.send_signup_email(@sub_user.name, @property_name, @heat_ticket_number, @bridge_number, @customers_affected, @ticket_category, @event_category, @event_severity, @event_status, @created_at).deliver_now
+                #UserNotifier.send_signup_email(@sub_user.name).deliver_now
                     @people.each do |key, value|
                         @twilio_client.account.messages.create(
                             :from => "+1#{twilio_phone_number}",
                             :to => key,
-                            :body => "Hello #{value}, a ticket in category #{@ticket_category} has been created for ENS. Please check your email for details."
+                            :body => "Hello #{value}, ticket ##{@heat_ticket_number} for #{@property_name} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
                         )
                     end
             else 
@@ -123,6 +138,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:event_status, :customers_affected, :property_ids)
+      params.require(:ticket).permit(:event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :property_ids)
     end
 end

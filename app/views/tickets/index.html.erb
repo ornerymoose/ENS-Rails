@@ -6,8 +6,11 @@
         <thead>
             <tr>
                 <th>Property</th>
-                <th>Event status</th>
+                <th>Event Status</th>
+                <th>Event Severity</th>
                 <th>Customers affected</th>
+                <th>Problem Statement</th>
+                <th>Additional Notes</th>
                 <th>Inspect</th>
                 <th>Edit</th>
                 <th>Close</th>
@@ -21,7 +24,10 @@
                         <td><%= property.name %></td>
                     <% end %>
                     <td><%= ticket.event_status %></td>
+                    <td><%= ticket.event_severity %></td>
                     <td><%= ticket.customers_affected %></td>
+                    <td><%= ticket.problem_statement %></td>
+                    <td><%= ticket.additional_notes %></td>
                     <td><%= link_to 'Show', ticket %></td>
                     <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
                     <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>

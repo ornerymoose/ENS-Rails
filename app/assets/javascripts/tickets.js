@@ -1,11 +1,10 @@
-$(document).ready(function(){
-	
-	// $('#ticket_property_ids').change(function() {
- //        var category = $(this).val();
- //        console.log(category);
- //        //console.log('changed');
- //        $('#item').val(category);
- //        //$('.category-hidden').val(category);
- //        //$('#hidden-category').val(category);
- //    });
-})
+function validate(evt) {
+	var theEvent = evt || window.event;
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode( key );
+	var regex = /^[0-9b]*$/;
+	if( !regex.test(key) ) {
+		theEvent.returnValue = false;
+		if(theEvent.preventDefault) theEvent.preventDefault();
+	}
+}

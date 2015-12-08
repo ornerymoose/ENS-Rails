@@ -22,7 +22,9 @@ Devise.setup do |config|
   config.ldap_use_admin_to_bind = true
   # config.ldap_ad_group_check = false
   config.ldap_auth_username_builder = Proc.new() {|attribute, login, ldap| "#{login}" }
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  # config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+
+  config.mailer_sender = ENV["SENDGRID_EMAIL_FROM"]
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
