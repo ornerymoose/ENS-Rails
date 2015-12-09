@@ -48,4 +48,4 @@ end
 gem 'devise'
 gem 'devise_ldap_authenticatable'
 gem 'twilio-ruby'
-
+gem 'activeadmin', github: 'gregbell/active_admin'

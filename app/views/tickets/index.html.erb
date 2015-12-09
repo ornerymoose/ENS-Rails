@@ -5,32 +5,34 @@
     <table class="table table-bordered table-striped table-hover table-condensed">
         <thead>
             <tr>
+                <th>Heat Ticket #</th>
                 <th>Property</th>
                 <th>Event Status</th>
+                <th>Event Category</th>
                 <th>Event Severity</th>
                 <th>Customers affected</th>
+                <th>Bridge #</th>
                 <th>Problem Statement</th>
                 <th>Additional Notes</th>
-                <th>Inspect</th>
-                <th>Edit</th>
-                <th>Close</th>
+                <th>Delete</th>
             </tr>
         </thead>
 
         <tbody>
             <% @tickets.each do |ticket| %>
                 <tr>
+                    <td><%= link_to "#{ticket.heat_ticket_number}", ticket %></td>
                     <% ticket.properties.each do |property| %>
                         <td><%= property.name %></td>
                     <% end %>
                     <td><%= ticket.event_status %></td>
+                    <td><%= ticket.event_category %></td>
                     <td><%= ticket.event_severity %></td>
-                    <td><%= ticket.customers_affected %></td>
+                    <td><%= ticket.customers_affected %></td>                    
+                    <td><%= ticket.bridge_number %></td>
                     <td><%= ticket.problem_statement %></td>
                     <td><%= ticket.additional_notes %></td>
-                    <td><%= link_to 'Show', ticket %></td>
-                    <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
-                    <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td><%= link_to 'Close', ticket, method: :delete, data: { confirm: 'Are you sure? This action is permanent.' } %></td>
                 </tr>
             <% end %>
         </tbody>

@@ -10,53 +10,57 @@
         </div>
     <% end %>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :property_id %><br>    
         <%= hidden_field_tag "item", :category_ids %>
         <%= collection_select(:ticket, :property_ids, Property.all, :id, :name, {prompt: true}, {class: "form-control"}) %>
     </div>
 
-    <div class="field">
-        <%= f.label :heat_ticket_number %><br>    
-        <%= f.text_field :heat_ticket_number, class: "form-control" %> 
+    <div class="form-group">
+        <%= f.label :heat_ticket_number %>
+        <%= f.text_field :heat_ticket_number, class: "form-control", :onkeypress => 'validate(event)' %> 
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :bridge_number %><br>    
-        <%= f.text_field :bridge_number, class: "form-control" %> 
+        <%= f.text_field :bridge_number, class: "form-control", :onkeypress => 'validate(event)' %> 
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :event_status %><br>
         <%= f.select(:event_status, ['Initial'], {}, {class: "form-control"}) %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :event_category %><br>
         <%= f.select(:event_category, ['Early Warning','Informational','Simplex','Outage'], {}, {class: "form-control"}) %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :event_severity %><br>
         <%= f.select(:event_severity, ['Low','Medium','High','Critical'], {}, {class: "form-control"}) %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :customers_affected %><br>
         <%= f.text_field :customers_affected, class: "form-control" %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :problem_statement %><br>
         <%= f.text_area :problem_statement, class: "form-control" %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :additional_notes %><br>
         <%= f.text_area :additional_notes, class: "form-control" %>
     </div>
 
-    <div class="actions">
-        <%= f.submit :class => "btn btn-default" %>
-    </div>
+    <p>
+        <div class="actions">
+            <%= f.submit :class => "btn btn-default" %>
+        </div>        
+    </p>
+
+
 <% end %>
