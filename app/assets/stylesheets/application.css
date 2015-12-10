@@ -11,6 +11,9 @@
  * file per style scope.
  *
  *= require bootstrap.min
+ *= require jquery-ui
+ *= require select2-bootstrap
+ *= require select2
  *= require_self
  */
 

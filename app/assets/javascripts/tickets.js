@@ -8,3 +8,15 @@ function validate(evt) {
 		if(theEvent.preventDefault) theEvent.preventDefault();
 	}
 }
+
+$(function() {
+  initPage();
+});
+$(window).bind('page:change', function() {
+  initPage();
+});
+function initPage() {
+	$("#ticket_property_ids").select2({
+		theme: "bootstrap"
+	});
+}

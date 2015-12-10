@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require select2
 //= require bootstrap.min
 //= require turbolinks
 //= require_tree .
+

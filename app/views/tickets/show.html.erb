@@ -4,7 +4,7 @@
   <strong>Property:</strong>
   <%#= @ticket.property_id %>
    <% @ticket.properties.each do |property| %>
-  	<%= property.name %>
+  	<%= property.name %><%= "," unless property == @ticket.properties.last %>
   <% end %>
 </p>
 

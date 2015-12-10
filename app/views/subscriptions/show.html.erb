@@ -13,9 +13,8 @@
 <p>
   <strong>Category:</strong>
   <%#= @subscription.category_id %>
-
   <% @subscription.categories.each do |category| %>
-  	<%= category.name %>
+  	<%= category.name %><%= "," unless category == @subscription.categories.last %>
   <% end %>
 </p>
 

@@ -43,9 +43,9 @@ group :development, :test do
   gem 'spring'
 end
 
-
-
 gem 'devise'
 gem 'devise_ldap_authenticatable'
 gem 'twilio-ruby'
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'jquery-ui-rails'
+gem "select2-rails"

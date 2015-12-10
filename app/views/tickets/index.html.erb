@@ -22,9 +22,11 @@
             <% @tickets.each do |ticket| %>
                 <tr>
                     <td><%= link_to "#{ticket.heat_ticket_number}", ticket %></td>
+                    <td>
                     <% ticket.properties.each do |property| %>
-                        <td><%= property.name %></td>
+                        <div><%= property.name %><%= "," unless property == ticket.properties.last %></div>
                     <% end %>
+                    </td>
                     <td><%= ticket.event_status %></td>
                     <td><%= ticket.event_category %></td>
                     <td><%= ticket.event_severity %></td>

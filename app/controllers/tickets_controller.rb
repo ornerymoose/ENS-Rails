@@ -1,12 +1,20 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
   before_action :grab_subscription
+
+
   # GET /tickets
   # GET /tickets.json
   def index
     @tickets = Ticket.all
 
-    #@sub_user = Subscription.find_by_name(current_user.email)
+    @properties = Property.all
+    @pj = @properties.to_json(:only => [:id, :name])
+
+    respond_to do |format|
+        format.html
+        format.json { render :json => @pj}
+    end
   end
 
   # GET /tickets/1
@@ -17,15 +25,6 @@ class TicketsController < ApplicationController
   # GET /tickets/new
   def new
     @ticket = Ticket.new
-
-    #@sub_user = Subscription.find_by_name(current_user.email)
-
-    # @sub_user.categories.each do |category|
-    #     @sub_user_categories = category.name
-    # end
-
-    
-
   end
 
   # GET /tickets/1/edit
@@ -34,8 +33,8 @@ class TicketsController < ApplicationController
 
   # POST /tickets
   # POST /tickets.json
-def create
-    @ticket = Ticket.new(ticket_params)
+  def create
+   	@ticket = Ticket.new(ticket_params)
 
     respond_to do |format|
         if @ticket.save
@@ -68,12 +67,16 @@ def create
 
             if @sub_cat_list.include?(@ticket_category)
                 UserNotifier.send_signup_email(@sub_user.name, @property_name, @heat_ticket_number, @bridge_number, @customers_affected, @ticket_category, @event_category, @event_severity, @event_status, @created_at).deliver_now
-                @people.each do |key, value|
-                    @twilio_client.account.messages.create(
-                        :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                        :to => key,
-                        :body => "Hello #{value}, ticket ##{@heat_ticket_number} for #{@property_name} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
-                    )
+                if @sub_user.phone_number.empty?
+                    #dont send text message
+                else 
+                    @people.each do |key, value|
+                        @twilio_client.account.messages.create(
+                            :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                            :to => key,
+                            :body => "Hello #{value}, ticket ##{@heat_ticket_number} for #{@property_name} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
+                        )
+                    end
                 end
             else 
                 #dont send email
@@ -166,14 +169,19 @@ end
 
     def grab_subscription
         @sub_user = Subscription.find_by_name(current_user.email)
-        @people = {
+        if @sub_user.nil?
+          #do nothing, just go to tickets index page
+        else 
+          @people = {
             "#{@sub_user.phone_number}" => "#{@sub_user.name}"                    
-        }
+          }
+        end
         @twilio_client = Twilio::REST::Client.new Rails.application.secrets.twilio_sid, Rails.application.secrets.twilio_token
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :property_ids)
+      params.require(:ticket).permit(:event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :property_ids => [])
     end
+
 end
