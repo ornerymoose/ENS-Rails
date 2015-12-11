@@ -81,56 +81,43 @@ end
 
   # PATCH/PUT /tickets/1
   # PATCH/PUT /tickets/1.json
-  def update
+def update
     respond_to do |format|
-      if @ticket.update(ticket_params)
-        format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
-        format.json { render :show, status: :ok, location: @ticket }
+        if @ticket.update(ticket_params)
+            format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
+            format.json { render :show, status: :ok, location: @ticket }
 
-        #new code
-        @sub_cat_list = []
-        @sub_user.categories.each do |category|
-            @sub_cat_list << category.name
-        end
-        #cycle through categories
-        @ticket.properties.each do |property|
-            property.categories.each do |category|
-                @ticket_category = category.name #this is only retreiving one category: the category of the ticket
+            @ticket.properties.each do |property|
+                property.categories.each do |category|
+                    @ticket_category = category.name
+                end
             end
-        end
 
-        #if the category of the ticket is in the subscriber's array, do below:
-        if @sub_cat_list.include?(@ticket_category)
-            @people.each do |key, value|
+            @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
+            @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+            @numbers_for_sms.each do |pn|
                 @twilio_client.account.messages.create(
                     :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                    :to => key,
-                    :body => "Hello #{value}, ticket ##{@ticket.heat_ticket_number} has been updated via ENS. Please check your email for details."
+                    :to => "#{pn}",
+                    :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been updated via ENS. Please check your email for details."
                 )
             end
+        else
+            format.html { render :edit }
+            format.json { render json: @ticket.errors, status: :unprocessable_entity }
         end
-
-
-      else
-        format.html { render :edit }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
-      end
     end
-  end
+end
 
   # DELETE /tickets/1
   # DELETE /tickets/1.json
-  def destroy
+def destroy
     @ticket.destroy
     respond_to do |format|
 
         format.html { redirect_to tickets_url, notice: 'Ticket was successfully destroyed.' }
         format.json { head :no_content }
-        #new code
-        @sub_cat_list = []
-        @sub_user.categories.each do |category|
-            @sub_cat_list << category.name
-        end
+        
         #cycle through categories
         @ticket.properties.each do |property|
             property.categories.each do |category|
@@ -139,17 +126,17 @@ end
         end
 
         #if the category of the ticket is in the subscriber's array, do below:
-        if @sub_cat_list.include?(@ticket_category)
-            @people.each do |key, value|
-                @twilio_client.account.messages.create(
-                    :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                    :to => key,
-                    :body => "Hello #{value}, ticket ##{@ticket.heat_ticket_number} has been closed via ENS. Please check your email for details."
-                )
-            end
+        @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
+        @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+        @numbers_for_sms.each do |pn|
+            @twilio_client.account.messages.create(
+                :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                :to => "#{pn}",
+                :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS. Please check your email for details."
+            )
         end
     end
-  end
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.
