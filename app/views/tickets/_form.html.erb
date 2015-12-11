@@ -1,3 +1,4 @@
+<%#= @people.select {|user| user["categories"].include?("Southwest Residential")} %>
 <%= form_for(@ticket) do |f| %>
     <% if @ticket.errors.any? %>
         <div id="error_explanation">

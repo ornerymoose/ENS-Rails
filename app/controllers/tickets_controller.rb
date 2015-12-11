@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
-  before_action :grab_subscription
-
+  #before_action :grab_subscription
+  before_action :grab_all
 
   # GET /tickets
   # GET /tickets.json
@@ -51,11 +51,6 @@ class TicketsController < ApplicationController
                 @property_name = property.name
             end
 
-            @sub_cat_list = []
-            @sub_user.categories.each do |category|
-                @sub_cat_list << category.name
-            end
-
             #attributes to be put in email for ticket
             @created_at = @ticket.created_at
             @event_severity = @ticket.event_severity.downcase
@@ -65,21 +60,16 @@ class TicketsController < ApplicationController
             @heat_ticket_number = @ticket.heat_ticket_number
             @bridge_number = @ticket.bridge_number
 
-            if @sub_cat_list.include?(@ticket_category)
-                UserNotifier.send_signup_email(@sub_user.name, @property_name, @heat_ticket_number, @bridge_number, @customers_affected, @ticket_category, @event_category, @event_severity, @event_status, @created_at).deliver_now
-                if @sub_user.phone_number.empty?
-                    #dont send text message
-                else 
-                    @people.each do |key, value|
-                        @twilio_client.account.messages.create(
-                            :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                            :to => key,
-                            :body => "Hello #{value}, ticket ##{@heat_ticket_number} for #{@property_name} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
-                        )
-                    end
-                end
-            else 
-                #dont send email
+            @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
+            @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+            @numbers_for_sms.each do |pn|
+            #UserNotifier.send_signup_email(@sub_user.name, @property_name, @heat_ticket_number, @bridge_number, @customers_affected, @ticket_category, @event_category, @event_severity, @event_status, @created_at).deliver_now
+
+                @twilio_client.account.messages.create(
+                    :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                    :to => "#{pn}",
+                    :body => "Hello, ticket ##{@heat_ticket_number} for #{@property_name} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
+                )
             end
             
         else
@@ -167,15 +157,9 @@ end
       @ticket = Ticket.find(params[:id])
     end
 
-    def grab_subscription
-        @sub_user = Subscription.find_by_name(current_user.email)
-        if @sub_user.nil?
-          #do nothing, just go to tickets index page
-        else 
-          @people = {
-            "#{@sub_user.phone_number}" => "#{@sub_user.name}"                    
-          }
-        end
+    def grab_all
+        @all_users = Subscription.where.not(phone_number: '')
+        @people = @all_users.includes(:categories).map { |user| user.slice(:phone_number, :name).merge(categories: user.categories.map(&:name))}
         @twilio_client = Twilio::REST::Client.new Rails.application.secrets.twilio_sid, Rails.application.secrets.twilio_token
     end
 

@@ -17,7 +17,7 @@
       <tr>
         <td><%= subscription.name %></td>
         <td><%= subscription.phone_number %></td>
-        <!-- <td><%= subscription.category_id %></td> -->
+        
         <% subscription.categories.each do |category| %>
           <td><%= category.name %></td>
         <% end %>
