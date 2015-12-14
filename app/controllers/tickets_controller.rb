@@ -45,8 +45,11 @@ class TicketsController < ApplicationController
                 @ticket_category = property.category.name
             end
 
+            @property_array = []
             @ticket.properties.each do |property|
                 @property_name = property.name
+                @property_array.push(@property_name)
+                #@property_name = property.name "," unless property == @ticket.properties.last
             end
 
             #attributes to be put in email for ticket
@@ -66,7 +69,7 @@ class TicketsController < ApplicationController
                 @twilio_client.account.messages.create(
                     :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                     :to => "#{pn}",
-                    :body => "Hello, ticket ##{@heat_ticket_number} for #{@property_name} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
+                    :body => "Hello, ticket ##{@heat_ticket_number} for #{@property_array.join(", ")} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
                 )
             end
             

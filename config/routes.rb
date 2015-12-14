@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   resources :categories
  
   root 'tickets#index'
-
+  get "*path" => redirect("/")
 end
