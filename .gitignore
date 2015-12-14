@@ -16,5 +16,6 @@
 !/log/.keep
 /tmp
 
-# Ignore Files with Sensitive Information (ENV Vars Used Anyways)
+# Ignore Files with Sensitive Information
 config/ldap.yml
+db/seeds.rb

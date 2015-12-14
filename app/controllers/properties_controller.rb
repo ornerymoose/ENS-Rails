@@ -1,6 +1,6 @@
 class PropertiesController < ApplicationController
   before_action :set_property, only: [:show, :edit, :update, :destroy]
-
+  before_action :grab_subscription
   # GET /properties
   # GET /properties.json
   def index
@@ -67,8 +67,12 @@ class PropertiesController < ApplicationController
       @property = Property.find(params[:id])
     end
 
+    def grab_subscription
+        @sub_user = Subscription.find_by_name(current_user.email)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def property_params
-      params.require(:property).permit(:name, :category_ids => [])
+      params.require(:property).permit(:name, :category_id)
     end
 end

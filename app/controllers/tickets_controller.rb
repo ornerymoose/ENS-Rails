@@ -1,6 +1,6 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
-  #before_action :grab_subscription
+  before_action :grab_subscription
   before_action :grab_all
 
   # GET /tickets
@@ -42,9 +42,7 @@ class TicketsController < ApplicationController
             format.json { render :show, status: :created, location: @ticket }
 
             @ticket.properties.each do |property|
-                property.categories.each do |category|
-                    @ticket_category = category.name
-                end
+                @ticket_category = property.category.name
             end
 
             @ticket.properties.each do |property|
@@ -88,9 +86,7 @@ def update
             format.json { render :show, status: :ok, location: @ticket }
 
             @ticket.properties.each do |property|
-                property.categories.each do |category|
-                    @ticket_category = category.name
-                end
+                @ticket_category = property.category.name
             end
 
             @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
@@ -120,10 +116,9 @@ def destroy
         
         #cycle through categories
         @ticket.properties.each do |property|
-            property.categories.each do |category|
-                @ticket_category = category.name #this is only retreiving one category: the category of the ticket
-            end
-        end
+            @ticket_category = property.category.name
+        end    
+
 
         #if the category of the ticket is in the subscriber's array, do below:
         @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
@@ -142,6 +137,10 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
       @ticket = Ticket.find(params[:id])
+    end
+
+    def grab_subscription
+        @sub_user = Subscription.find_by_name(current_user.email)
     end
 
     def grab_all

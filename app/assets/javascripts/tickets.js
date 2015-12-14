@@ -17,6 +17,5 @@ $(window).bind('page:change', function() {
 });
 function initPage() {
 	$("#ticket_property_ids").select2({
-		theme: "bootstrap"
 	});
 }
