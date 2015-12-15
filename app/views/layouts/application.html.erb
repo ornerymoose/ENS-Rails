@@ -18,8 +18,10 @@
                 <% else %>
                     <%= link_to "Subscribe to ENS", new_subscription_path, method: :get, :class => 'navbar-link'  %> |
                 <% end %> 
-                <%= link_to "Tickets Home", tickets_path, method: :get, :class => 'navbar-link'  %> |
-                <%= link_to "Create Ticket", new_ticket_path, method: :get, :class => 'navbar-link'  %>
+                <%= link_to "Tickets Home", tickets_path, method: :get, :class => 'navbar-link'  %>
+                <% if can? :manage, Ticket %>
+                    | <%= link_to "Create Ticket", new_ticket_path, method: :get, :class => 'navbar-link'  %>
+                <% end %>
             <% else %>
                 <%#= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %>
                 <%#= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>

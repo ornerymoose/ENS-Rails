@@ -1,10 +1,13 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
   before_action :grab_subscription
+  load_and_authorize_resource
   # GET /subscriptions
   # GET /subscriptions.json
   def index
     @subscriptions = Subscription.all
+
+    #authorize! :admin, @subscriptions
   end
 
   # GET /subscriptions/1

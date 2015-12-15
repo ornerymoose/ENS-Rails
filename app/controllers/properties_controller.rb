@@ -1,6 +1,7 @@
 class PropertiesController < ApplicationController
   before_action :set_property, only: [:show, :edit, :update, :destroy]
   before_action :grab_subscription
+  load_and_authorize_resource
   # GET /properties
   # GET /properties.json
   def index

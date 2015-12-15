@@ -3,6 +3,8 @@ class TicketsController < ApplicationController
   before_action :grab_subscription
   before_action :grab_all
 
+  load_and_authorize_resource
+
   # GET /tickets
   # GET /tickets.json
   def index

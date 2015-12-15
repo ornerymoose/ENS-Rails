@@ -49,3 +49,4 @@ gem 'twilio-ruby'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'jquery-ui-rails'
 gem "select2-rails"
+gem 'cancancan'
