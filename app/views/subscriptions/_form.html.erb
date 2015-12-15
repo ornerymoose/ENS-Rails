@@ -12,7 +12,7 @@
 
     <div class="field">
         <%= f.label :name %><br>
-        <%= f.text_field :name, class: "form-control", :readonly => true %>
+        <%= f.text_field :name, :value => current_user.email, class: "form-control", :readonly => true %>
     </div>
 
     <div class="field">

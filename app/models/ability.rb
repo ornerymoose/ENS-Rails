@@ -33,9 +33,12 @@ class Ability
     if user.role == 'admin'
         can :manage, :all
     elsif user.role == 'ens_viewer'
-        can :read, Ticket
+        can :index, Ticket
+        can :manage, Subscription
+        cannot :read, [Subscription, Category, Property]
     elsif user.role = 'ens_admin'
-        can :manage, Ticket
+        can :manage, [Ticket, Subscription]
+        cannot :read, [Subscription, Category, Property]
     end
 
   end

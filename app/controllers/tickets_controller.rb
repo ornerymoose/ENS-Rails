@@ -87,7 +87,7 @@ end
 def update
     respond_to do |format|
         if @ticket.update(ticket_params)
-            format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
+            format.html { redirect_to tickets_url, notice: 'Ticket was successfully updated.' }
             format.json { render :show, status: :ok, location: @ticket }
 
             @ticket.properties.each do |property|

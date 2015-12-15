@@ -26,3 +26,10 @@ en:
       Ticket:
         create: "Create Ticket"
         update: "Update Ticket"
+  unauthorized:
+    destroy:
+      ticket: "You are not allowed to close this ticket."
+    show:
+      ticket: "You can only view the ticket from this page."
+    index:
+      subscription: "You cannot view the list of subscriptions."
