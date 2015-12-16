@@ -40,7 +40,7 @@ class TicketsController < ApplicationController
 
     respond_to do |format|
         if @ticket.save
-            format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
+            format.html { redirect_to tickets_url, notice: 'Ticket was successfully created.' }
             format.json { render :show, status: :created, location: @ticket }
 
             @ticket.properties.each do |property|
