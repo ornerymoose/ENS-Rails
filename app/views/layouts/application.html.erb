@@ -53,12 +53,18 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-   
-        <div style="padding-top: 40px">
-            <div class="container">
-                <%= yield %>
-            </div>        
-        </div>
-
+    <div style="margin-top: 50px">    
+        <% if notice %>
+            <p class="alert alert-success"><%= notice %></p>
+        <% end %>
+        <% if alert %>
+            <p class="alert alert-danger"><%= alert %></p>
+        <% end %>
+    </div>    
+    
+    <div class="container">
+        <%= yield %>
+    </div>        
+    
     </body>
 </html>

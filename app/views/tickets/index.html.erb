@@ -1,6 +1,4 @@
-<!-- <p id="notice"><%= notice %></p> -->
 <h1>Listing Tickets</h1>
-
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover table-condensed">
         <thead>
@@ -28,7 +26,6 @@
                         <div><%= property.name %><%= "," unless property == ticket.properties.last %></div>
                     <% end %>
                     </td>
-                    
                     <% if ticket.created_at > 1.week.ago %>
                         <td><%="#{time_ago_in_words(ticket.created_at)} ago"%></td>
                     <% end %>
