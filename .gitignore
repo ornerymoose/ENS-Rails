@@ -17,5 +17,4 @@
 /tmp
 
 # Ignore Files with Sensitive Information
-config/ldap.yml
 db/seeds.rb
