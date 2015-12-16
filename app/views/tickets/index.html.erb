@@ -7,6 +7,7 @@
             <tr>
                 <th>Heat Ticket #</th>
                 <th>Property</th>
+                <th>Created</th>
                 <th>Event Status</th>
                 <th>Event Category</th>
                 <th>Event Severity</th>
@@ -27,6 +28,10 @@
                         <div><%= property.name %><%= "," unless property == ticket.properties.last %></div>
                     <% end %>
                     </td>
+                    
+                    <% if ticket.created_at > 1.week.ago %>
+                        <td><%="#{time_ago_in_words(ticket.created_at)} ago"%></td>
+                    <% end %>
                     <td><%= ticket.event_status %></td>
                     <td><%= ticket.event_category %></td>
                     <td><%= ticket.event_severity %></td>
