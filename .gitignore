@@ -18,3 +18,4 @@
 
 # Ignore Files with Sensitive Information
 db/seeds.rb
+config/app_ev.rb
