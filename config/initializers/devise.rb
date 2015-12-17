@@ -12,6 +12,8 @@ Devise.setup do |config|
   # config.ldap_use_admin_to_bind = false
   # config.ldap_ad_group_check = false
 
+  config.secret_key = ENV['DEVISE_SECRET'] if Rails.env == 'production'
+
   config.ldap_logger = true
   config.ldap_create_user = true
   # config.ldap_update_password = true
