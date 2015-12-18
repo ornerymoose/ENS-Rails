@@ -9,18 +9,18 @@
             </ul>
         </div>
     <% end %>
-
-    <div class="field">
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <div class="form-group">
         <%= f.label :name %><br>
         <%= f.text_field :name, :value => current_user.email, class: "form-control", :readonly => true %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :phone_number %><br>
-        <%= f.telephone_field :phone_number, class: "form-control telephone", :onkeypress => 'validate(event)', :placeholder => '10 Digit Phone Number' %>
+        <%= f.telephone_field :phone_number, class: "form-control telephone", :onkeypress => 'validate(event)', :placeholder => '10 Digit Phone Number', :maxlength => 10 %>
     </div>
 
-    <div class="field">
+    <div class="form-group">
         <%= f.label :category_id %><br>
         <%= collection_check_boxes(:subscription, :category_ids, Category.all, :id, :name) do |b| %>
             <div class="row">

@@ -2,7 +2,7 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
   before_action :grab_subscription
   load_and_authorize_resource
-  #skip_authorize_resource :only => :edit
+  
   # GET /subscriptions
   # GET /subscriptions.json
   def index
@@ -33,7 +33,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
+        format.html { redirect_to tickets_path, notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else
         format.html { render :new }
@@ -70,6 +70,8 @@ class SubscriptionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_subscription
       @subscription = Subscription.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to tickets_path, :alert => "You cannot access that subscription."
     end
 
     def grab_subscription
@@ -78,6 +80,6 @@ class SubscriptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subscription_params
-      params.require(:subscription).permit(:name, :phone_number, :category_ids => [])
+      params.require(:subscription).permit(:name, :user_id, :phone_number, :category_ids => [])
     end
 end
