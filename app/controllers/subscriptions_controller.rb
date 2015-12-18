@@ -33,6 +33,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
+        UserNotifier.send_subscription_created_email(@subscription.name).deliver_now
         format.html { redirect_to tickets_path, notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else

@@ -1,6 +1,13 @@
 class UserNotifier < ApplicationMailer
 	default :from => ENV["SENDGRID_EMAIL_FROM"]
 
+	def send_subscription_created_email(subscriber)
+		@subscriber = subscriber
+		mail(:to => ENV["SENDGRID_EMAIL_FROM"],
+    	:subject => "ENS - #{@subscriber} has subscribed!")
+	end
+
+
 	# send a signup email to the user, pass in the user object that   contains the user's email address
 	def send_signup_email(user, property_name, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at)
 		@property_name = property_name
