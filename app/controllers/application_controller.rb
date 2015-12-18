@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery with: :exception
   before_action :authenticate_user!
+  before_action :remove_authentication_flash_message_if_root_url_requested
 
   def authenticate_active_admin_user!
   	authenticate_user!
@@ -21,4 +22,11 @@ class ApplicationController < ActionController::Base
       	redirect_to root_path
    	end
   end
+
+  def remove_authentication_flash_message_if_root_url_requested
+    if session[:user_return_to] == root_path and flash[:alert] == I18n.t('devise.failure.unauthenticated')
+      flash[:alert] = nil
+    end
+  end
+
 end
