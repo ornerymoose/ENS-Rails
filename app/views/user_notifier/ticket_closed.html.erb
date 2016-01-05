@@ -4,8 +4,9 @@
         <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   	</head>
   	<body>
-        <h1>An ENS ticket#<%= @heat_ticket_number %> has been closed. Please see below.</h1>
-            <p>Property/Properties: <%#= @property_array.map(&:upcase).to_sentence %></p>
-            <p>Ticket was created at <%= @created_at %> and was closed at <%= Time.now %></p>
+        <h1>An ENS ticket#<%= @heat_ticket_number %> has been closed.</h1>
+            <p>Property/Properties: <%= @property_array.map(&:upcase).to_sentence %></p>
+            <p>Problem Statement: <%= @problem_statement %></p>
+            <p>Additional Notes: <%= @additional_notes %></p>
   	</body>
 </html>

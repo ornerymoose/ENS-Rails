@@ -119,6 +119,12 @@ def destroy
         #cycle through categories
         @ticket.properties.each do |property|
             @ticket_category = property.category.name
+        end
+
+        @property_array = []
+        @ticket.properties.each do |property|
+            @property_name = property.name
+            @property_array.push(@property_name)
         end    
 
         #if the category of the ticket is in the subscriber's array, do below:
