@@ -51,27 +51,17 @@ class TicketsController < ApplicationController
             @ticket.properties.each do |property|
                 @property_name = property.name
                 @property_array.push(@property_name)
-                #@property_name = property.name "," unless property == @ticket.properties.last
             end
-
-            #attributes to be put in email for ticket
-            @created_at = @ticket.created_at
-            @event_severity = @ticket.event_severity.downcase
-            @event_status = @ticket.event_status
-            @event_category = @ticket.event_category
-            @customers_affected = @ticket.customers_affected
-            @heat_ticket_number = @ticket.heat_ticket_number
-            @bridge_number = @ticket.bridge_number
 
             @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
             @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
             @numbers_for_sms.each do |pn|
-            #UserNotifier.send_signup_email(@sub_user.name, @property_name, @heat_ticket_number, @bridge_number, @customers_affected, @ticket_category, @event_category, @event_severity, @event_status, @created_at).deliver_now
+                UserNotifier.ticket_created(@sub_user.name, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now
 
                 @twilio_client.account.messages.create(
                     :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                     :to => "#{pn}",
-                    :body => "Hello, ticket ##{@heat_ticket_number} for #{@property_array.join(", ")} has been created via ENS. Event severity has been classified as #{@event_severity}. Please check your email for details."
+                    :body => "Hello, ticket ##{@ticket.heat_ticket_number} for #{@property_array.map(&:upcase).to_sentence} has been created via ENS. Event severity has been classified as #{@ticket.event_severity}. Please check your email for details."
                 )
             end
             
@@ -94,9 +84,16 @@ def update
                 @ticket_category = property.category.name
             end
 
+            @property_array = []
+            @ticket.properties.each do |property|
+                @property_name = property.name
+                @property_array.push(@property_name)
+            end
+
             @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
             @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
             @numbers_for_sms.each do |pn|
+                UserNotifier.ticket_updated(@sub_user.name, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now
                 @twilio_client.account.messages.create(
                     :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                     :to => "#{pn}",
@@ -124,11 +121,11 @@ def destroy
             @ticket_category = property.category.name
         end    
 
-
         #if the category of the ticket is in the subscriber's array, do below:
         @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
         @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
         @numbers_for_sms.each do |pn|
+          UserNotifier.ticket_closed(@sub_user.name, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now
             @twilio_client.account.messages.create(
                 :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                 :to => "#{pn}",

@@ -7,10 +7,8 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - #{@subscriber} has subscribed!")
 	end
 
-
-	# send a signup email to the user, pass in the user object that   contains the user's email address
-	def send_signup_email(user, property_name, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at)
-		@property_name = property_name
+	def ticket_created(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes)
+		@property_array = property_array
 		@heat_ticket_number = heat_ticket_number
 		@bridge_number = bridge_number
 		@customers_affected = customers_affected
@@ -19,7 +17,41 @@ class UserNotifier < ApplicationMailer
 		@event_status = event_status
 		@event_severity = event_severity
 		@created_at = created_at
+		@problem_statement = problem_statement
+		@additional_notes = additional_notes
     	mail(:to => user,
-    	:subject => 'ENS - A Ticket Has Been Created.')
+    	:subject => "ENS - A Ticket Has Been Created for: #{@property_array.map(&:upcase).to_sentence}")
+  	end
+
+  	def ticket_updated(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes)
+		@property_array = property_array
+		@heat_ticket_number = heat_ticket_number
+		@bridge_number = bridge_number
+		@customers_affected = customers_affected
+		@ticket_category = ticket_category
+		@event_category = event_category
+		@event_status = event_status
+		@event_severity = event_severity
+		@created_at = created_at
+		@problem_statement = problem_statement
+		@additional_notes = additional_notes
+    	mail(:to => user,
+    	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated.")
+  	end
+
+  	def ticket_closed(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes)
+		@property_array = property_array
+		@heat_ticket_number = heat_ticket_number
+		@bridge_number = bridge_number
+		@customers_affected = customers_affected
+		@ticket_category = ticket_category
+		@event_category = event_category
+		@event_status = event_status
+		@event_severity = event_severity
+		@created_at = created_at
+		@problem_statement = problem_statement
+		@additional_notes = additional_notes
+    	mail(:to => user,
+    	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed.")
   	end
 end

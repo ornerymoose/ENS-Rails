@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  	</head>
+  	<body>
+        <h1>An ENS ticket#<%= @heat_ticket_number %> has been closed. Please see below.</h1>
+            <p>Property/Properties: <%#= @property_array.map(&:upcase).to_sentence %></p>
+            <p>Ticket was created at <%= @created_at %> and was closed at <%= Time.now %></p>
+  	</body>
+</html>
