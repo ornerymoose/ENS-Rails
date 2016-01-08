@@ -15,6 +15,11 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :remove_authentication_flash_message_if_root_url_requested
 
+  def user_for_paper_trail
+    # Save the user responsible for the action
+    user_signed_in? ? current_user.id : 'Guest'
+  end
+
   def authenticate_active_admin_user!
   	authenticate_user!
    	unless current_user.role?(:admin)

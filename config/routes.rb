@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :categorizations
   resources :properties
   resources :categories
-
+  get '/history', to: 'tickets#history'
   root 'tickets#index'
   get "*path" => redirect("/")
 end

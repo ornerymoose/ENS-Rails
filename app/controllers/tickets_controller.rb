@@ -7,6 +7,11 @@ class TicketsController < ApplicationController
 
   # GET /tickets
   # GET /tickets.json
+
+  def history
+    @versions = PaperTrail::Version.order('created_at DESC')
+  end
+  
   def index
     @tickets = Ticket.all
 
@@ -37,7 +42,7 @@ class TicketsController < ApplicationController
   # POST /tickets.json
   def create
    	@ticket = Ticket.new(ticket_params)
-
+    @ticket.user_id = current_user.id
     respond_to do |format|
         if @ticket.save
             format.html { redirect_to tickets_url, notice: 'Ticket was successfully created.' }
