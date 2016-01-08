@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
     has_one :subscription
+    has_many :tickets
 
 	def role?(r)
   		role.include? r.to_s
