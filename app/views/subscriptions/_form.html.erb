@@ -9,6 +9,15 @@
             </ul>
         </div>
     <% end %>
+    <div class="alert alert-warning" role="alert">This is where you subscribe to ENS properties. If you want to receive SMS/E-mail when an outage occurs, you will need to select the appropriate categories below. For example, if an outage at Pelican Bay occurred, that would fall under the 'Southwest Residential' category. After you select the necessary checkboxes, please click the 'Update Subscription' or 'Create Subscription' button (which button appears is dependent on whether you've previously subscribed).
+
+    <p><br>
+        In order to receive text message notifications, you must enter a valid 10-digit cell phone number. 
+    </p>
+    <p><br>
+        If you would like to stop receiving SMS/E-mail notifications for a particular category, simply update your description and un-check that checkbox. 
+    </p>
+    </div>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <div class="form-group">
         <%= f.label :name %><br>
