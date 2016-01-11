@@ -4,20 +4,20 @@
   <ul>
     <% @versions.each do |version| %>
       <li>
-        <%= l(version.created_at, format: "%-d.%m.%Y %H:%M:%S %Z") %><br/>
-        <b>User:</b>
+        <%= l(version.created_at, format: "%m/%d/%Y %H:%M:%S %Z") %><br/>
+        <b>Action Performed By:</b>
         <% if version.whodunnit && version.whodunnit != 'Guest' %>
           <% user = User.find_by_id(version.whodunnit) %>
           <% if user %>
             <span style="color: red"><%= user.email %></span>
-            (last signed in at <%= l(user.last_sign_in_at, format: "%-d.%m.%Y %H:%M:%S") %>)
+            (last signed in at <%= l(user.last_sign_in_at, format: "%m/%d/%Y %H:%M:%S") %>)
           <% end %>
         <% else %>
           Guest
         <% end %><br />
-        Event ID: <%= version.id %><br/>
-        <b>Target:</b> <%= version.item_type %>
-        <small>(id: <%= version.item_id %>)</small>; <b>action</b> <%= version.event %>;<br/>
+        <b>Event ID:</b> <%= version.id %><br/>
+        <b>Ticket ID:</b> <%= version.item_id %><br/>
+        <b>Action Taken on Ticket:</b> <%= version.event.upcase %><br/>
         <div>
           More info:
           <pre><%= version.object %></pre>
@@ -26,18 +26,6 @@
           Changeset:
           <pre><%= version.changeset %></pre>
         </div>
-
-        <b>User:</b>
-        <% if version.whodunnit && version.whodunnit != 'Guest' %>
-          <% user = User.find_by_id(version.whodunnit) %>
-          <% if user %>
-            <span style="color: red"><%= user.email %></span>
-            (last signed in at <%= l(user.last_sign_in_at, format: "%-d.%m.%Y %H:%M:%S") %>)
-          <% end %>
-        <% else %>
-          Guest
-        <% end %>
-        
       </li>
       
     <% end %>
