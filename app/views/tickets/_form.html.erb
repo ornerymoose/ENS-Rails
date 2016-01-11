@@ -14,7 +14,7 @@
     <div class="form-group">
         <%= f.label :property_id %><br>    
         <%#= hidden_field_tag "item", :category_ids %>
-        <%= collection_select(:ticket, :property_ids, Property.all, :id, :name, {}, {:multiple => true, class: "form-control"}) %>
+        <%= collection_select(:ticket, :property_ids, Property.all, :id, :property_name_and_address, {}, {:multiple => true, class: "form-control"}) %>
     </div>
 
     <div class="form-group">
