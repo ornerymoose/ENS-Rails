@@ -7,11 +7,11 @@
                 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
                     <div class="form-group">
                         <%= f.label :email %>
-                        <%= f.email_field :email, class: "form-control", autofocus: true %>                       
+                        <%= f.email_field :email, :placeholder => "Enterprise Email", class: "form-control", autofocus: true %>                       
                     </div>
                     <div class="form-group">
                         <%= f.label :password %><br />
-                        <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+                        <%= f.password_field :password, :placeholder => "Enterprise Password", autocomplete: "off", class: "form-control" %>
                     </div>
                     <div class="form-group">
                         <%= f.submit "Click to Login", class: "btn btn-default btn-lg standard-button2" %>
