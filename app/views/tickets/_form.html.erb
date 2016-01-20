@@ -14,17 +14,17 @@
     <div class="form-group">
         <%= f.label :property_id %><br>    
         <%#= hidden_field_tag "item", :category_ids %>
-        <%= collection_select(:ticket, :property_ids, Property.all, :id, :property_name_and_address, {}, {:multiple => true, class: "form-control"}) %>
+        <%= collection_select(:ticket, :property_ids, Property.all, :id, :property_name_and_address, {}, {:multiple => true, class: "form-control property-field"}) %>
     </div>
 
     <div class="form-group">
         <%= f.label :heat_ticket_number %>
-        <%= f.text_field :heat_ticket_number, class: "form-control", :onkeypress => 'validate(event)' %> 
+        <%= f.text_field :heat_ticket_number, class: "form-control htn", :onkeypress => 'validate(event)', :placeholder => 'Minimum 8 Digits - this field is required' %> 
     </div>
 
     <div class="form-group">
         <%= f.label :bridge_number %><br>    
-        <%= f.text_field :bridge_number, class: "form-control", :onkeypress => 'validate(event)' %> 
+        <%= f.text_field :bridge_number, class: "form-control", :onkeypress => 'validate(event)', :placeholder => 'Enter Bridge Number if Applicable' %> 
     </div>
 
     <div class="form-group">
@@ -44,22 +44,22 @@
 
     <div class="form-group">
         <%= f.label :customers_affected %><br>
-        <%= f.text_field :customers_affected, class: "form-control" %>
+        <%= f.text_field :customers_affected, class: "form-control", :placeholder => 'How many customers were affected?' %>
     </div>
 
     <div class="form-group">
         <%= f.label :problem_statement %><br>
-        <%= f.text_area :problem_statement, class: "form-control" %>
+        <%= f.text_area :problem_statement, class: "form-control problem_statement", :placeholder => 'Enter the problem statement here - this field is required' %>
     </div>
 
     <div class="form-group">
         <%= f.label :additional_notes %><br>
-        <%= f.text_area :additional_notes, class: "form-control" %>
+        <%= f.text_area :additional_notes, class: "form-control additional_notes", :placeholder => 'Enter any additional notes here - this field is required' %>
     </div>
 
     <p>
         <div class="actions">
-            <%= f.submit :class => "btn btn-default" %>
+            <%= f.submit :class => "btn btn-default ticket-submit" %>
         </div>        
     </p>
 
