@@ -39,18 +39,11 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated.")
   	end
 
-  	def ticket_closed(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes)
+  	def ticket_closed(user, property_array, heat_ticket_number, ticket_category, resolution)
 		@property_array = property_array
 		@heat_ticket_number = heat_ticket_number
-		@bridge_number = bridge_number
-		@customers_affected = customers_affected
 		@ticket_category = ticket_category
-		@event_category = event_category
-		@event_status = event_status
-		@event_severity = event_severity
-		@created_at = created_at
-		@problem_statement = problem_statement
-		@additional_notes = additional_notes
+		@resolution = resolution
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed.")
   	end

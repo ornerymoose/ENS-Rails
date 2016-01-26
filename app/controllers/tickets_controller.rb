@@ -1,7 +1,9 @@
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: [:show, :edit, :update, :destroy]
+  around_filter :catch_not_found
+  before_action :set_ticket, only: [:close, :close_update, :edit, :update, :destroy]
   before_action :grab_subscription
-  before_action :grab_all
+  before_action :grab_all_phone_numbers
+  before_action :grab_all_sub_emails
 
   load_and_authorize_resource
 
@@ -13,7 +15,9 @@ class TicketsController < ApplicationController
   end
   
   def index
-    @tickets = Ticket.all
+    #@tickets = Ticket.all
+    @tickets = Ticket.active
+
 
     @properties = Property.all
     @pj = @properties.to_json(:only => [:id, :name])
@@ -21,13 +25,14 @@ class TicketsController < ApplicationController
     respond_to do |format|
         format.html
         format.json { render :json => @pj}
+        format.js
     end
   end
 
   # GET /tickets/1
   # GET /tickets/1.json
-  def show
-  end
+  # def show
+  # end
 
   # GET /tickets/new
   def new
@@ -36,6 +41,9 @@ class TicketsController < ApplicationController
 
   # GET /tickets/1/edit
   def edit
+  end
+
+  def close
   end
 
   # POST /tickets
@@ -58,11 +66,17 @@ class TicketsController < ApplicationController
                 @property_array.push(@property_name)
             end
 
+            #code below for emails
+            @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
+            @emails_for_email = @people_for_email.map {|emails| emails["name"]}
+            @emails_for_email.each do |email|
+                UserNotifier.ticket_created(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now            
+            end
+
+            #code below for SMS
             @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
             @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
             @numbers_for_sms.each do |pn|
-                UserNotifier.ticket_created(@sub_user.name, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now
-
                 @twilio_client.account.messages.create(
                     :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                     :to => "#{pn}",
@@ -95,10 +109,16 @@ def update
                 @property_array.push(@property_name)
             end
 
+            #code below for emails
+            @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
+            @emails_for_email = @people_for_email.map {|emails| emails["name"]}
+            @emails_for_email.each do |email|
+                UserNotifier.ticket_updated(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now                
+            end
+            #code below for SMS        
             @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
             @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
             @numbers_for_sms.each do |pn|
-                UserNotifier.ticket_updated(@sub_user.name, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now
                 @twilio_client.account.messages.create(
                     :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                     :to => "#{pn}",
@@ -112,36 +132,42 @@ def update
     end
 end
 
-  # DELETE /tickets/1
-  # DELETE /tickets/1.json
-def destroy
-    @ticket.destroy
+def close_update
     respond_to do |format|
+        if @ticket.update(ticket_params)
+            format.html { redirect_to tickets_url, notice: 'Ticket has been successfully closed.' }
+            format.json { render :show, status: :ok, location: @ticket }
 
-        format.html { redirect_to tickets_url, notice: 'Ticket was successfully destroyed.' }
-        format.json { head :no_content }
-        
-        #cycle through categories
-        @ticket.properties.each do |property|
-            @ticket_category = property.category.name
-        end
+            @ticket.properties.each do |property|
+                @ticket_category = property.category.name
+            end
 
-        @property_array = []
-        @ticket.properties.each do |property|
-            @property_name = property.name
-            @property_array.push(@property_name)
-        end    
+            @property_array = []
+            @ticket.properties.each do |property|
+                @property_name = property.name
+                @property_array.push(@property_name)
+            end
 
-        #if the category of the ticket is in the subscriber's array, do below:
-        @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
-        @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
-        @numbers_for_sms.each do |pn|
-          UserNotifier.ticket_closed(@sub_user.name, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now
-            @twilio_client.account.messages.create(
-                :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                :to => "#{pn}",
-                :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS. Please check your email for details."
-            )
+            #code below for emails
+            @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
+            @emails_for_email = @people_for_email.map {|emails| emails["name"]}    
+            @emails_for_email.each do |email|
+                UserNotifier.ticket_closed(email, @property_array, @ticket.heat_ticket_number, @ticket_category, @ticket.resolution).deliver_now
+            end
+
+            #code below for SMS
+            @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
+            @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+            @numbers_for_sms.each do |pn|
+                @twilio_client.account.messages.create(
+                    :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                    :to => "#{pn}",
+                    :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for details. Resolution: #{@ticket.resolution}"
+                )
+            end
+        else
+            format.html { render :close }
+            format.json { render json: @ticket.errors, status: :unprocessable_entity }
         end
     end
 end
@@ -152,11 +178,22 @@ end
       @ticket = Ticket.find(params[:id])
     end
 
+    def catch_not_found
+      yield
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_url, :flash => { :alert => "That ticket does not exist." }
+    end
+
     def grab_subscription
         @sub_user = Subscription.find_by_name(current_user.email)
     end
 
-    def grab_all
+    def grab_all_sub_emails
+        @all_users = Subscription.where.not(name: '')
+        @sub_emails = @all_users.includes(:categories).map { |user| user.slice(:phone_number, :name).merge(categories: user.categories.map(&:name))}
+    end
+
+    def grab_all_phone_numbers
         @all_users = Subscription.where.not(phone_number: '')
         @people = @all_users.includes(:categories).map { |user| user.slice(:phone_number, :name).merge(categories: user.categories.map(&:name))}
         @twilio_client = Twilio::REST::Client.new Rails.application.secrets.twilio_sid, Rails.application.secrets.twilio_token
@@ -164,7 +201,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :property_ids => [])
+      params.require(:ticket).permit(:event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :resolution, :completed_at, :property_ids => [])
     end
 
 end

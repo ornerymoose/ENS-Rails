@@ -34,7 +34,7 @@
                     <td><%= ticket.bridge_number %></td>
                     <td><%= ticket.problem_statement %></td>
                     <td><%= ticket.additional_notes %></td>
-                    <td><%= link_to 'Close', ticket, method: :delete, data: { confirm: 'Are you sure? This action is permanent.' } %></td>
+                    <td><%= link_to "Close", close_path(ticket) %></td>
                 </tr>
             <% end %>
         </tbody>
