@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
 
 	def generic_role
 		#if users email address is within array
-		if self.email.in?("ENV['NOC_TECHS']")
+		#if self.email.in?(ENV['NOC_TECHS'])
+		if ENV['NOC_TECHS'].include? self.email
 			self.role ||= "ens_admin"
 		else
 			self.role ||= "ens_viewer"
