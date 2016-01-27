@@ -1,14 +1,4 @@
 <%= form_for(@subscription) do |f| %>
-    <% if @subscription.errors.any? %>
-        <div id="error_explanation">
-            <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
-            <ul>
-                <% @subscription.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
     <div class="alert alert-warning" role="alert">This is where you subscribe to ENS properties. <strong>If you want to receive SMS/E-mail when an outage occurs, you will need to select the appropriate categories below.</strong> For example, if an outage at Pelican Bay occurred, that would fall under the 'Southwest Residential' category. After you select the necessary checkboxes, please click the 'Update Subscription' or 'Create Subscription' button (which button appears is dependent on whether you've previously subscribed).
 
     <p><br>
