@@ -8,7 +8,6 @@
     </head>
     <body>
 
-    <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -30,10 +29,7 @@
             <% if user_signed_in? %>
                 <% if current_user.role == "admin" %>
                     <li><%= link_to "Admin", admin_dashboard_path, method: :get, :class => 'navbar-link'  %></li>    
-                <% end %>
-                <!-- <li>Logged in as <strong><%= current_user.email %></strong>.</li> -->
-                <!-- Session Details are: <strong><%= user_session %></strong>. -->
-                <%#= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+                <% end %>*
                 <li><%= link_to "Logout", destroy_user_session_path, method: :get, :class => 'navbar-link'  %></li>
                 <% if @sub_user %>
                     <li><%= link_to "Edit Subscription", edit_subscription_path(@sub_user.id), method: :get, :class => 'navbar-link'  %></li>
@@ -41,14 +37,10 @@
                     <li><%= link_to "Subscribe to ENS", new_subscription_path, method: :get, :class => 'navbar-link'  %></li>
                 <% end %> 
                 <li><%= link_to "Tickets Home", tickets_path, method: :get, :class => 'navbar-link' %></li>
-                <% if can? :manage, Ticket %>
+                <% unless @sub_user.nil? %>
                     <li><%= link_to "Create Ticket", new_ticket_path, method: :get, :class => 'navbar-link' %></li>
-                <% end %>
-            <% else %>
-                <%#= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %>
-                <%#= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+                <% end %>                
             <% end %>
-            
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -61,10 +53,8 @@
             <p class="alert alert-danger"><%= alert %></p>
         <% end %>
     </div>    
-    
     <div class="container">
         <%= yield %>
-    </div>        
-    
+    </div>            
     </body>
 </html>
