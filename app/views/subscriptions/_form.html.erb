@@ -9,7 +9,7 @@
             </ul>
         </div>
     <% end %>
-    <div class="alert alert-warning" role="alert">This is where you subscribe to ENS properties. If you want to receive SMS/E-mail when an outage occurs, you will need to select the appropriate categories below. For example, if an outage at Pelican Bay occurred, that would fall under the 'Southwest Residential' category. After you select the necessary checkboxes, please click the 'Update Subscription' or 'Create Subscription' button (which button appears is dependent on whether you've previously subscribed).
+    <div class="alert alert-warning" role="alert">This is where you subscribe to ENS properties. <strong>If you want to receive SMS/E-mail when an outage occurs, you will need to select the appropriate categories below.</strong> For example, if an outage at Pelican Bay occurred, that would fall under the 'Southwest Residential' category. After you select the necessary checkboxes, please click the 'Update Subscription' or 'Create Subscription' button (which button appears is dependent on whether you've previously subscribed).
 
     <p><br>
         In order to receive text message notifications, you must enter a valid 10-digit cell phone number. 
@@ -42,6 +42,6 @@
     </div>
 
     <div class="actions">
-        <%= f.submit :class => "btn btn-default submit-subscription" %>
+        <%= f.submit :class => "btn btn-default" %>
     </div>
 <% end %>
