@@ -19,6 +19,16 @@
     </p>
     </div>
     <div class="alert alert-danger" role="alert"><strong>PLEASE NOTE:</strong> The final two checkboxes are 'Central Enterprise' and 'Southwest Enterprise'. The 'Central Enterprise' checkbox would represent an outage affecting all of Central Florida. The 'Southwest Enterprise' checkbox would represent an outage affecting all of Southwest Florida.</div>
+    <% if @subscription.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+            <ul>
+                <% @subscription.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <div class="form-group">
         <%= f.label :name %><br>
