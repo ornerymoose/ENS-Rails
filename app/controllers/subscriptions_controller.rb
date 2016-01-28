@@ -1,6 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
   before_action :grab_subscription
+  before_action :if_subscription_exists, only: [:new]
   load_and_authorize_resource
   
   # GET /subscriptions
@@ -69,6 +70,13 @@ class SubscriptionsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def if_subscription_exists
+      @subscription = Subscription.find_by_name(current_user.email)
+      if !@subscription.nil?
+          redirect_to root_url, alert: 'You already have an existing subscription.'
+      end
+    end
     def set_subscription
       @subscription = Subscription.find(params[:id])
       rescue ActiveRecord::RecordNotFound
