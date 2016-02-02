@@ -1,11 +1,11 @@
 class TicketsController < ApplicationController
   around_filter :catch_not_found
-  before_action :set_ticket, only: [:close, :close_update, :edit, :update, :destroy]
+  before_action :set_ticket, only: [:close, :close_update, :edit, :update, :destroy, :show]
   before_action :grab_subscription
   before_action :grab_all_phone_numbers
   before_action :grab_all_sub_emails
 
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:show]
 
   # GET /tickets
   # GET /tickets.json
@@ -29,25 +29,29 @@ class TicketsController < ApplicationController
     end
   end
 
-  # GET /tickets/1
-  # GET /tickets/1.json
-  # def show
-  # end
+  def show
+    @ticket_properties = Array.new
+    @ticket.properties.each do |property|
+      @ticket_properties.push(property)
+    end  
 
-  # GET /tickets/new
+    @hash = Gmaps4rails.build_markers(@ticket_properties) do |ticket_prop, marker|
+      marker.lat ticket_prop.latitude
+      marker.lng ticket_prop.longitude
+      marker.infowindow ticket_prop.name
+    end
+  end
+
   def new
     @ticket = Ticket.new
   end
-
-  # GET /tickets/1/edit
+  
   def edit
   end
 
   def close
   end
 
-  # POST /tickets
-  # POST /tickets.json
   def create
    	@ticket = Ticket.new(ticket_params)
     @ticket.user_id = current_user.id

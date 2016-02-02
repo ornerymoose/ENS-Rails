@@ -25,6 +25,7 @@
                     <% ticket.properties.each do |property| %>
                         <div><%= property.name %><%= "," unless property == ticket.properties.last %></div>
                     <% end %>
+                    <%= link_to "Map", ticket_path(ticket) %>
                     </td>                    
                     <td><%="#{time_ago_in_words(ticket.created_at)} ago"%></td>
                     <td><%= ticket.event_status %></td>

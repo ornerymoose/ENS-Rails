@@ -16,4 +16,6 @@
 //= require select2
 //= require bootstrap.min
 //= require turbolinks
+//= require underscore
+//= require gmaps/google
 //= require_tree .
