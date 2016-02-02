@@ -32,7 +32,7 @@
             <% if user_signed_in? %>
                 <% if current_user.role == "admin" %>
                     <li><%= link_to "Admin", admin_dashboard_path, method: :get, :class => 'navbar-link'  %></li>    
-                <% end %>*
+                <% end %>
                 <li><%= link_to "Logout", destroy_user_session_path, method: :get, :class => 'navbar-link'  %></li>
                 <% if @sub_user %>
                     <li><%= link_to "Edit Subscription", edit_subscription_path(@sub_user.id), method: :get, :class => 'navbar-link'  %></li>
