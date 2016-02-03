@@ -15,9 +15,26 @@ class TicketsController < ApplicationController
   end
   
   def index
-    #@tickets = Ticket.all
     @tickets = Ticket.active
 
+    @ticket_all_properties = Array.new
+    @tickets.each do |ticket|
+        ticket.properties.each do |property|
+            @ticket_all_properties.push(property)            
+        end
+    end 
+
+    @hash = Gmaps4rails.build_markers(@ticket_all_properties) do |ticket_prop, marker|
+        info_window = "#{ticket_prop.name}<br>#{ticket_prop.address}"
+        marker.lat ticket_prop.latitude
+        marker.lng ticket_prop.longitude
+        marker.infowindow info_window
+        marker.picture({
+            "url" => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|FF0000|000000",
+            "width" =>  "36",        
+            "height" => "36"
+        })    
+    end
 
     @properties = Property.all
     @pj = @properties.to_json(:only => [:id, :name])
