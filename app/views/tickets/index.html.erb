@@ -20,7 +20,9 @@
         <tbody>
             <% @tickets.each do |ticket| %>
                 <tr>
-                    <td><%= link_to "#{ticket.heat_ticket_number}", edit_ticket_path(ticket) %></td>
+                    <td><%= ticket.heat_ticket_number %>
+                        <div><%= link_to "(Edit)", edit_ticket_path(ticket) %></div>
+                    </td>
                     <td>
                     <% ticket.properties.each do |property| %>
                         <div><%= property.name %><%= "," unless property == ticket.properties.last %></div>
