@@ -2,6 +2,7 @@ class Ticket < ActiveRecord::Base
 	has_many :categorizations
 	has_many :properties, through: :categorizations
 	belongs_to :user
+	validates_presence_of :properties, :on => :create
 	has_paper_trail
 
 	#this will 'hide' tickets from tickets#index page if they have a completed_at value of nil. When a ticket is initially created,
