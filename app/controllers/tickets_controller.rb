@@ -25,7 +25,7 @@ class TicketsController < ApplicationController
     end 
 
     @hash = Gmaps4rails.build_markers(@ticket_all_properties) do |ticket_prop, marker|
-        info_window = "#{ticket_prop.name}<br>#{ticket_prop.address}"
+        info_window = "<strong>#{ticket_prop.name}</strong><br>#{ticket_prop.address}"
         marker.lat ticket_prop.latitude
         marker.lng ticket_prop.longitude
         marker.infowindow info_window
@@ -61,7 +61,7 @@ class TicketsController < ApplicationController
     end
 
     @hash = Gmaps4rails.build_markers(@ticket_properties) do |ticket_prop, marker|
-        info_window = "#{ticket_prop.name}<br>#{ticket_prop.address}"
+        info_window = "<strong>#{ticket_prop.name}</strong><br>#{ticket_prop.address}"
         marker.lat ticket_prop.latitude
         marker.lng ticket_prop.longitude
         marker.infowindow info_window
