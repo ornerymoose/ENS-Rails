@@ -13,7 +13,7 @@ $(function() {
   initPage();
   $('.ticket-submit').attr("disabled", "disabled");
   $('.htn, .additional_notes, .problem_statement').keyup(function(){
-        if( ($('.htn').val().length !=0) && ($('.additional_notes').val().length !=0) && ($('.problem_statement').val().length !=0) ) {
+        if( ($('.htn').val().length >= 7) && ($('.additional_notes').val().length !=0) && ($('.problem_statement').val().length !=0) ) {
           $('.ticket-submit').prop( "disabled", false );
         } else {
           $('.ticket-submit').prop( "disabled", true );
