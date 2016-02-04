@@ -2,7 +2,7 @@ class Ticket < ActiveRecord::Base
 	has_many :categorizations
 	has_many :properties, through: :categorizations
 	belongs_to :user
-	validates_presence_of :properties, :on => :create
+	validates_presence_of :properties, :problem_statement, :additional_notes, :heat_ticket_number, :on => :create
 	has_paper_trail
 
 	#this will 'hide' tickets from tickets#index page if they have a completed_at value of nil. When a ticket is initially created,
