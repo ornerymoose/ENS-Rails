@@ -10,8 +10,16 @@ function validate(evt) {
 }
 
 $(function() {
-  initPage();
+	initPage();
+  	var hash_val = $('#map_data').val();
+	if (hash_val == ""){
+		$("#map, .table, .ticket-header").hide();
+		$(".active-ticket-panel").css("margin-top", "30px");
+	} else {
+		$(".active-ticket-panel").hide();
+	}
 });
+
 $(window).bind('page:change', function() {
   initPage();
 });
