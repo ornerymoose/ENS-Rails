@@ -213,8 +213,11 @@ end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
-      @ticket = Ticket.find(params[:id])
-    end
+        @ticket = Ticket.find(params[:id])
+        if @ticket.completed_at != nil 
+            redirect_to root_url, :flash => { :alert => "That ticket has already been closed." }
+        end
+    end 
 
     def catch_not_found
       yield

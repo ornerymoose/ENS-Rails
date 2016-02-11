@@ -9,19 +9,24 @@ function validate(evt) {
 	}
 }
 
-$(function() {
-	initPage();
-  	var hash_val = $('#map_data').val();
+function mapDisplay(){
+	var hash_val = $('#map_data').val();
 	if (hash_val == ""){
 		$("#map, .table, .ticket-header").hide();
 		$(".active-ticket-panel").css("margin-top", "30px");
 	} else {
 		$(".active-ticket-panel").hide();
 	}
+}
+
+$(function() {
+	initPage();
+  	mapDisplay();
 });
 
 $(window).bind('page:change', function() {
   initPage();
+  mapDisplay();
 });
 function initPage() {
 	$("#ticket_property_ids").select2({
