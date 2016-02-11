@@ -38,7 +38,7 @@
                     </td>
                     <td>
                     <% ticket.properties.each do |property| %>
-                        <div><%= property.name %><%= "," unless property == ticket.properties.last %></div>
+                        <div><strong><%= property.name %></strong>, <%= property.address %><%= ";" unless property == ticket.properties.last %></div>
                     <% end %>
                     <%= link_to "Map", ticket_path(ticket) %>
                     </td>                    
