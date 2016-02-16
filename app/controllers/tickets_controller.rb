@@ -47,11 +47,24 @@ class TicketsController < ApplicationController
       @ticket_properties.push(property)
     end  
 
+    if @ticket.customers_affected.to_i < 10
+        @ca = ActionController::Base.helpers.asset_path("yellow.png")
+    elsif @ticket.customers_affected.to_i > 10 && @ticket.customers_affected.to_i <= 99
+        @ca = ActionController::Base.helpers.asset_path("orange.png")
+    else 
+        @ca = ActionController::Base.helpers.asset_path("red.png")
+    end
+
     @hash = Gmaps4rails.build_markers(@ticket_properties) do |ticket_prop, marker|
         info_window = "<strong>#{ticket_prop.name}</strong><br>#{ticket_prop.address}"
         marker.lat ticket_prop.latitude
         marker.lng ticket_prop.longitude
         marker.infowindow info_window
+        marker.picture({
+            "url" => "#{@ca}",
+            "width" =>  "41",        
+            "height" => "41"
+        })
     end
   end
 

@@ -22,7 +22,7 @@ var lestyles=[{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturati
         handler.fitMapToBounds();
         if (markers.length <= 2) {
             handler.getMap().setZoom(11);
-        }  
+        }
     });
 </script>
     <%= hidden_field_tag "map_data", @hash, { :id => "map_data" } %>
