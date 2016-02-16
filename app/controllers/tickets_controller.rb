@@ -29,11 +29,6 @@ class TicketsController < ApplicationController
         marker.lat ticket_prop.latitude
         marker.lng ticket_prop.longitude
         marker.infowindow info_window
-        marker.picture({
-            "url" => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|FF0000|000000",
-            "width" =>  "36",        
-            "height" => "36"
-        })    
     end
 
     @properties = Property.all
@@ -52,24 +47,11 @@ class TicketsController < ApplicationController
       @ticket_properties.push(property)
     end  
 
-    if @ticket.customers_affected.to_i < 10
-        @ca = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|ffff00|000000"
-    elsif @ticket.customers_affected.to_i > 10 && @ticket.customers_affected.to_i <= 99
-        @ca = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|ff9900|000000"
-    else 
-        @ca = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|FF0000|000000"
-    end
-
     @hash = Gmaps4rails.build_markers(@ticket_properties) do |ticket_prop, marker|
         info_window = "<strong>#{ticket_prop.name}</strong><br>#{ticket_prop.address}"
         marker.lat ticket_prop.latitude
         marker.lng ticket_prop.longitude
         marker.infowindow info_window
-        marker.picture({
-            "url" => "#{@ca}",
-            "width" =>  "36",        
-            "height" => "36"
-     })
     end
   end
 

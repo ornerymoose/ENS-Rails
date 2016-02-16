@@ -5,11 +5,24 @@
   <div id="map" style='width: 1140px; height: 300px; border: 1px solid #ddd'></div>
 </div>
 <script type="text/javascript">
+
+var lestyles=[{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturation":43.400000000000006},{"lightness":37.599999999999994},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":52},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0078FF"},{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},{"gamma":1}]}];
+    
     handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    handler.buildMap({
+        internal: {id: 'map'}, 
+        provider: {
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            styles: lestyles
+        }
+    },
+    function(){
         markers = handler.addMarkers(<%=raw @hash.to_json %>);
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
+        if (markers.length == 1) {
+            handler.getMap().setZoom(11);
+        }  
     });
 </script>
     <%= hidden_field_tag "map_data", @hash, { :id => "map_data" } %>
