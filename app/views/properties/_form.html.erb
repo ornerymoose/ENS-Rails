@@ -1,21 +1,33 @@
 <%= form_for(@property) do |f| %>
-  <% if @property.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@property.errors.count, "error") %> prohibited this property from being saved:</h2>
+    <% if @property.errors.any? %>
+        <div id="error_explanation">
+            <div class="alert alert-danger">
+                <%= pluralize(@property.errors.count, "error") %> prohibited this property from being saved:
+            <ul>
+                <% @property.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
 
-      <ul>
-      <% @property.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
+  <div class="form-group">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
-  <div class="field">
+  <div class="form-group">
+    <%= f.label :address %><br>
+    <%= f.text_field :address, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :latitude %><br>
+    <%= f.text_field :latitude, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :longitude %><br>
+    <%= f.text_field :longitude, class: "form-control" %>
+  </div>
+  <div class="form-group">
     <%= f.label :category_id %><br>
     <%#= f.number_field :category_id %>
     <%= collection_radio_buttons(:property, :category_id, Category.all, :id, :name) do |b| %>
@@ -27,6 +39,6 @@
     <% end %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => "btn btn-default ticket-submit" %>
   </div>
 <% end %>
