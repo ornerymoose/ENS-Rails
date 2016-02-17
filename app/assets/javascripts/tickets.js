@@ -12,7 +12,8 @@ function validate(evt) {
 function mapDisplay(){
 	var hash_val = $('#map_data').val();
 	if (hash_val == ""){
-		$("#map, .table, .ticket-header").hide();
+		//$("#map, .table, .ticket-header").hide();
+		$(".table, .ticket-header").hide();
 		$(".active-ticket-panel").css("margin-top", "30px");
 	} else {
 		$(".active-ticket-panel").hide();
