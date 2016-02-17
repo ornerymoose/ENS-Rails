@@ -18,11 +18,8 @@ var lestyles=[{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturati
     },
     function(){
         markers = handler.addMarkers(<%=raw @hash.to_json %>);
-        handler.bounds.extendWith(markers);
-        handler.fitMapToBounds();
-        if (markers.length <= 2) {
-            handler.getMap().setZoom(11);
-        }
+        handler.map.centerOn({ lat: 28.503937727245 , lng: -81.437142813892})
+        handler.getMap().setZoom(5);
     });
 </script>
     <%= hidden_field_tag "map_data", @hash, { :id => "map_data" } %>
