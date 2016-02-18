@@ -14,18 +14,17 @@
 
     <div class="form-group">
         <%= f.label :property_id %><br>    
-        <%#= hidden_field_tag "item", :category_ids %>
         <%= collection_select(:ticket, :property_ids, Property.all, :id, :property_name_and_address, {}, {:multiple => true, class: "form-control property-field"}) %>
     </div>
 
     <div class="form-group">
         <%= f.label :heat_ticket_number %>
-        <%= f.text_field :heat_ticket_number, class: "form-control htn", :onkeypress => 'validate(event)', :placeholder => 'Minimum 8 Digits - this field is required' %> 
+        <%= f.text_field :heat_ticket_number, class: "form-control htn", :placeholder => 'Minimum 8 Digits - this field is required' %> 
     </div>
 
     <div class="form-group">
         <%= f.label :bridge_number %><br>    
-        <%= f.text_field :bridge_number, class: "form-control", :onkeypress => 'validate(event)', :placeholder => 'Enter Bridge Number if Applicable' %> 
+        <%= f.text_field :bridge_number, class: "form-control", :placeholder => 'Enter Bridge Number if Applicable' %> 
     </div>
 
     <div class="form-group">
@@ -45,7 +44,7 @@
 
     <div class="form-group">
         <%= f.label :customers_affected %><br>
-        <%= f.text_field :customers_affected, class: "form-control", :onkeypress => 'validate(event)', :placeholder => 'How many customers were affected?' %>
+        <%= f.text_field :customers_affected, class: "form-control", :placeholder => 'How many customers were affected?' %>
     </div>
 
     <div class="form-group">
