@@ -3,10 +3,15 @@
 <div class="map-wrapper">
     <div id="map" style='width: 800px; height: 400px; border: 1px solid #ddd;'></div>
     <div class="overlay">
-        <ul>
-            <li><span class="ltw">10 Customers or Less Affected</span><%= image_tag("yellow.png", :class => "map_marker") %></li>
-            <li><span class="ltw1">11 to 99 Customers Affected</span><%= image_tag("orange.png", :class => "map_marker") %></li>
-            <li><span>100 or more Customers Affected</span><%= image_tag("red.png", :class => "map_marker") %></li>
+        <ul style="width:90%; float:left;">
+            <li>10 Customers or Less Affected</li>
+            <li>11 to 99 Customers Affected</li>
+            <li>100 or more Customers Affected</li>
+        </ul>
+        <ul style="width:10%; float:left;">
+            <li><%= image_tag("yellow.png", :class => "map_marker") %></li>
+            <li><%= image_tag("orange.png", :class => "map_marker") %></li>
+            <li><%= image_tag("red.png", :class => "map_marker") %></li>
         </ul>
     </div>
 </div>
