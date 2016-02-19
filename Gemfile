@@ -52,3 +52,4 @@ gem "select2-rails"
 gem 'cancancan'
 gem 'paper_trail', '~> 4.0.0'
 gem 'gmaps4rails'
+gem 'phony_rails'
