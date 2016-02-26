@@ -5,7 +5,22 @@ class Subscription < ActiveRecord::Base
 	belongs_to :user
 	validates_presence_of :categories, :on => :create
 
-	validates_numericality_of :phone_number, :allow_nil => true,  :message => "has to be numbers only"
-	validates :phone_number, phony_plausible: true, numericality: {only_integer: true}, :allow_blank => true, length: { minimum: 10 }
-	phony_normalize :phone_number, default_country_code: 'US'
+	validate :mobile_phone_number
+
+	def mobile_phone_number
+		lookup_client = Twilio::REST::LookupsClient.new Rails.application.secrets.twilio_sid, Rails.application.secrets.twilio_token
+		begin
+			if self.phone_number.blank?
+				return true
+			end
+			response = lookup_client.phone_numbers.get("#{self.phone_number}")
+			response.phone_number #if invalid, throws an exception. If valid, no problems.
+			return true
+		rescue => e
+			errors.add(:base, "That phone number is not valid.")
+		end
+	end
+
+
+
 end
