@@ -103,7 +103,7 @@ class TicketsController < ApplicationController
             @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
             @emails_for_email = @people_for_email.map {|emails| emails["name"]}
             @emails_for_email.each do |email|
-                UserNotifier.ticket_created(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now            
+                UserNotifier.ticket_created(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment).deliver_now            
             end
 
             #code below for SMS
@@ -237,7 +237,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :resolution, :completed_at, :property_ids => [])
+      params.require(:ticket).permit(:attachment, :event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :resolution, :completed_at, :property_ids => [])
     end
 
 end

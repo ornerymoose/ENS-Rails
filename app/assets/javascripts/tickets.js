@@ -33,4 +33,4 @@ function initPage() {
 	$("#ticket_property_ids").select2({
 		placeholder: "Select Affected Properties, You Can Search By Name or Address Via Typing "
 	});
-}
+}	

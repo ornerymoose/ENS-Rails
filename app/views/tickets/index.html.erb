@@ -45,6 +45,11 @@ var lestyles=[{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturati
                 <tr>
                     <td><%= ticket.heat_ticket_number %>
                         <div><%= link_to "(Edit)", edit_ticket_path(ticket) %></div>
+                        <% if ticket.attachment.exists? %>
+                            <%= link_to "Attachment", ticket.attachment.url(:original, false) %>
+                        <% else %>
+                            <!-- do nothing -->
+                        <% end %>
                     </td>
                     <td>
                     <% ticket.properties.each do |property| %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160201161502) do
+ActiveRecord::Schema.define(version: 20160303205551) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -64,8 +64,8 @@ ActiveRecord::Schema.define(version: 20160201161502) do
   create_table "tickets", force: :cascade do |t|
     t.string   "event_status"
     t.string   "customers_affected"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.string   "event_severity"
     t.string   "event_category"
     t.string   "heat_ticket_number"
@@ -75,6 +75,10 @@ ActiveRecord::Schema.define(version: 20160201161502) do
     t.integer  "user_id"
     t.text     "resolution"
     t.datetime "completed_at"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
   end
 
   create_table "users", force: :cascade do |t|

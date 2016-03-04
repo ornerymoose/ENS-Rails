@@ -11,4 +11,13 @@ class Ticket < ActiveRecord::Base
 	scope :active, ->{
   		where(completed_at: nil)
 	}
+
+	#file attachment
+	has_attached_file :attachment, :storage => :s3, :s3_credentials => Proc.new{|a| a.instance.s3_credentials }, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+  	validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\Z/
+  	validates_with AttachmentSizeValidator, attributes: :attachment, less_than: 1.megabytes
+
+  	def s3_credentials
+    	{:bucket => ENV["AWS_BUCKET"], :access_key_id => ENV["AWS_ACCESS_KEY_ID"], :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"]}
+  	end
 end
