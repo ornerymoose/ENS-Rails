@@ -2,7 +2,7 @@ class Ticket < ActiveRecord::Base
 	has_many :categorizations
 	has_many :properties, through: :categorizations
 	belongs_to :user
-	validates_presence_of :properties, :problem_statement, :additional_notes, :customers_affected, :heat_ticket_number, :on => :create
+	validates_presence_of :properties, :problem_statement, :additional_notes, :customers_affected, :heat_ticket_number
 	#validates :customers_affected, numericality: true
 	has_paper_trail
 
