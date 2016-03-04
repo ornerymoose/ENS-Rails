@@ -16,7 +16,7 @@
             <p>Additional Notes: <%= @additional_notes %></p>
             <p>Ticket Created: <%="#{time_ago_in_words(@created_at)} ago"%></p>
             <% if @attachment.exists? %>
-                <p>Attacments: <%= link_to "Download", @attachment.url(:original, false) %></p>
+                <p>Attachments: <%= link_to "Download", @attachment.url(:original, false) %></p>
             <% else %>
                 <p>Attachments: N/A</p>
             <% end %>
