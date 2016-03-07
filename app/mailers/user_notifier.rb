@@ -38,7 +38,6 @@ class UserNotifier < ApplicationMailer
 		@additional_notes = additional_notes
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated for: #{@property_array.map(&:upcase).to_sentence}")
- 
   	end
 
   	def ticket_closed(user, property_array, heat_ticket_number, ticket_category, resolution)
