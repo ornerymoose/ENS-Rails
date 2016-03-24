@@ -24,7 +24,10 @@
         </div>
         <div>
           Changeset:
-          <pre><%= version.changeset %></pre>
+          <pre><% version.changeset.each do |item| %>
+          <%= item %>
+            <% end %>
+          </pre>
         </div>
       </li>
       

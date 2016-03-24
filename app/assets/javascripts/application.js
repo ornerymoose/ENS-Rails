@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require select2.full.min
+//= require select2.min
 //= require bootstrap.min
 //= require turbolinks
 //= require underscore
