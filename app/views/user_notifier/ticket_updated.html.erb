@@ -21,6 +21,11 @@
                     <i><%= arr[0] %></i>
                 <% end %>
                 <br><br>
-        <% end %>
+            <% end %>
+            <% if @attachment.exists? %>
+                <p><strong>Attachments:</strong> <%= link_to "Download", @attachment.url(:original, false) %></p>
+            <% else %>
+                <p><strong>Attachments:</strong> N/A</p>
+            <% end %>
   	</body>
 </html>

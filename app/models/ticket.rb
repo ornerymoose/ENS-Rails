@@ -12,7 +12,7 @@ class Ticket < ActiveRecord::Base
 	}
 
 	#file attachment
-	has_attached_file :attachment, :storage => :s3, :s3_credentials => Proc.new{|a| a.instance.s3_credentials }, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+	has_attached_file :attachment, :storage => :s3, :s3_credentials => Proc.new{|a| a.instance.s3_credentials }, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png", :keep_old_files => true
   	validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\Z/
   	validates_with AttachmentSizeValidator, attributes: :attachment, less_than: 1.megabytes
 
