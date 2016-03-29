@@ -5,27 +5,26 @@
   	</head>
   	<body>
         <h1>An ENS ticket has been updated. Please see below.</h1>
-            <p><strong>Property/Properties:</strong> <%= @property_array.join(", ") %></p>
-            <p><strong>Heat Ticket Number:</strong> <%= @heat_ticket_number %></p>
-            <p><strong>Customers Affected:</strong> <%= @customers_affected %></p>
-            <p><strong>Event Status:</strong> <%= @event_status %></p>
-            <p><strong>Event Severity:</strong> <%= @event_severity %></p>
-            <p><strong>Event Category:</strong> <%= @event_category %></p>
-            <p><strong>Bridge Number:</strong> <%= @bridge_number %></p>
-            <p><strong>Problem Statement:</strong> <%= @problem_statement %></p>
-            <p><strong>Additional Notes:</strong> <%= @additional_notes %></p>
-            <p><strong>History of Additional Notes (From First to Last):</strong></p>
-            <% @versions.each do |version| %>
-                <% version.changeset.each do |item| %>
-                    <% arr = item.last.last.to_s.split(/(?<=\d)(?=[A-Za-z])/) %>
-                    <i><%= arr[0] %></i>
-                <% end %>
-                <br><br>
+        <p><strong>Property/Properties:</strong> <%= @property_array.join(", ") %></p>
+        <p><strong>Heat Ticket Number:</strong> <%= @heat_ticket_number %></p>
+        <p><strong>Customers Affected:</strong> <%= @customers_affected %></p>
+        <p><strong>Event Status:</strong> <%= @event_status %></p>
+        <p><strong>Event Severity:</strong> <%= @event_severity %></p>
+        <p><strong>Event Category:</strong> <%= @event_category %></p>
+        <p><strong>Bridge Number:</strong> <%= @bridge_number %></p>
+        <p><strong>Problem Statement:</strong> <%= @problem_statement %></p>
+         <% if @attachment.exists? %>
+            <p><strong>Attachments:</strong> <%= link_to "Download", @attachment.url(:original, false) %></p>
+        <% else %>
+            <p><strong>Attachments:</strong> N/A</p>
+        <% end %>
+        <p><strong>History of Additional Notes (From First to Last):</strong></p>
+         <% @versions.each do |version| %>
+            <% version.changeset.each do |item| %>
+                <% arr = item.last.last.to_s.split(/(?<=\d)(?=[A-Za-z])/) %>
+                <i><%= arr[0] %></i>
             <% end %>
-            <% if @attachment.exists? %>
-                <p><strong>Attachments:</strong> <%= link_to "Download", @attachment.url(:original, false) %></p>
-            <% else %>
-                <p><strong>Attachments:</strong> N/A</p>
-            <% end %>
+            <br><br>
+        <% end %>
   	</body>
 </html>
