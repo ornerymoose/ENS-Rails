@@ -21,7 +21,7 @@
         <p><strong>History of Additional Notes (From First to Last):</strong></p>
          <% @versions.each do |version| %>
             <% version.changeset.each do |item| %>
-                <%= item.last.last %>
+                <i><%= item.last.last %></i>
             <% end %>
             <br><br>
         <% end %>
