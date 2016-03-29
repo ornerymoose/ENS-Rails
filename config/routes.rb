@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users
-  resources :tickets#, :except => [:show]
+  resources :tickets
   resources :subscriptions
   resources :categorizations
   resources :properties
   resources :categories
-  get '/history', to: 'tickets#history'
+
+  #route to show papertrail history of who is updating the additional_notes column on the Ticket model
+  get '/history_notes', to: 'tickets#history_notes'
 
   #custom routes for closing a ticket
   get '/tickets/:id/close' => 'tickets#close', as: :close

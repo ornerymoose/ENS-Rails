@@ -24,7 +24,7 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - A Ticket Has Been Created for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-  	def ticket_updated(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes)
+  	def ticket_updated(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes, versions)
 		@property_array = property_array
 		@heat_ticket_number = heat_ticket_number
 		@bridge_number = bridge_number
@@ -36,6 +36,7 @@ class UserNotifier < ApplicationMailer
 		@created_at = created_at
 		@problem_statement = problem_statement
 		@additional_notes = additional_notes
+		@versions = versions
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated for: #{@property_array.map(&:upcase).to_sentence}")
   	end

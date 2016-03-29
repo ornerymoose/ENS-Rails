@@ -1,0 +1,15 @@
+<h3>History of Additional Notes</h3>  
+<% @versions.each do |version| %>
+	<% user = User.find_by_id(version.whodunnit) %>
+	<% if user %>
+		<b>Who Made the Change:</b> <span style="color: red"><%= user.email %></span><br>
+		<b>Change was made at:</b> <span style="color: green"><%= l(version.created_at, format: "%m/%d/%Y %H:%M:%S %Z") %></span><br/>
+	<% end %>
+	<b>Event ID:</b> <%= version.id %><br/>
+	<b>Ticket ID:</b> <%= version.item_id %><br/>
+	<b>Action Taken on Ticket:</b> <%= version.event.upcase %><br/>
+	<% version.changeset.each do |item| %>
+		<b>Additional Notes:</b> <%= item.last.last %>
+    <% end %>
+    <br><br>
+<% end %>

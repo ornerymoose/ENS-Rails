@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
 
     load_and_authorize_resource :except => [:show]
 
-    def history
+    def history_notes
         @versions = PaperTrail::Version.order('created_at DESC')
     end
   
@@ -110,7 +110,7 @@ class TicketsController < ApplicationController
                     @twilio_client.account.messages.create(
                         :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                         :to => "#{pn}",
-                        :body => "Hello, ticket ##{@ticket.heat_ticket_number} for #{@property_array.map(&:upcase).to_sentence} has been created via ENS. Event severity has been classified as #{@ticket.event_severity}. Please check your email for details."
+                        :body => "Hello, ticket ##{@ticket.heat_ticket_number} for #{@property_array.map(&:upcase).to_sentence} has been created via ENS. Event severity has been classified as #{@ticket.event_severity.downcase}. Please check your email for details."
                     )
                 end
             
@@ -141,7 +141,7 @@ class TicketsController < ApplicationController
                 @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
                 @emails_for_email = @people_for_email.map {|emails| emails["name"]}
                 @emails_for_email.each do |email|
-                    UserNotifier.ticket_updated(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes).deliver_now                
+                    UserNotifier.ticket_updated(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.versions).deliver_now                
                 end
 
                 #code below for SMS        

@@ -3,8 +3,8 @@ class Ticket < ActiveRecord::Base
 	has_many :properties, through: :categorizations
 	belongs_to :user
 	validates_presence_of :properties, :problem_statement, :additional_notes, :customers_affected, :heat_ticket_number
-	has_paper_trail
-
+	has_paper_trail :only => [:additional_notes]
+	
 	#this will 'hide' tickets from tickets#index page if they have a completed_at value of nil. When a ticket is initially created,
 	#it has a value of nil. completed_at will be set to Time.now when the ticket is closed, but not deleted (tickets never get deleted).
 	scope :active, ->{
@@ -19,4 +19,5 @@ class Ticket < ActiveRecord::Base
   	def s3_credentials
     	{:bucket => ENV["AWS_BUCKET"], :access_key_id => ENV["AWS_ACCESS_KEY_ID"], :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"]}
   	end
+
 end
