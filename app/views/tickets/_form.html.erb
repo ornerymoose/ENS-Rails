@@ -49,12 +49,12 @@
 
     <div class="form-group">
         <%= f.label :problem_statement %><br>
-        <%= f.text_area :problem_statement, class: "form-control problem_statement", :placeholder => 'Enter the problem statement here - this field is required' %>
+        <%= f.text_area :problem_statement, class: "form-control problem_statement", :placeholder => 'Enter the problem statement here - this field is required', :maxlength => 400 %>
     </div>
 
     <div class="form-group">
         <%= f.label :additional_notes %><br>
-        <%= f.text_area :additional_notes, class: "form-control additional_notes", :placeholder => 'Enter any additional notes here - this field is required' %>
+        <%= f.text_area :additional_notes, class: "form-control additional_notes", :placeholder => 'Enter any additional notes here - this field is required', :maxlength => 400  %>
     </div>
 
     <div class="form-group">
