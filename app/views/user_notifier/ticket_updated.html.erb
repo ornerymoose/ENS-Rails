@@ -21,8 +21,7 @@
         <p><strong>History of Additional Notes (From First to Last):</strong></p>
          <% @versions.each do |version| %>
             <% version.changeset.each do |item| %>
-                <% arr = item.last.last.to_s.split(/(?<=\d)(?=[A-Za-z])/) %>
-                <i><%= arr[0] %></i>
+                <%= item.last.last %>
             <% end %>
             <br><br>
         <% end %>
