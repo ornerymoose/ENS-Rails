@@ -13,11 +13,11 @@
 
   <div class="form-group">
     <%= f.label :name %><br>
-    <%= f.text_field :name, class: "form-control" %>
+    <%= f.text_field :name, class: "form-control property-name" %>
   </div>
   <div class="form-group">
     <%= f.label :address %><br>
-    <%= f.text_field :address, class: "form-control" %>
+    <%= f.text_field :address, class: "form-control property-address" %>
   </div>
   <div class="form-group">
     <%= f.label :latitude %><br>
@@ -27,6 +27,9 @@
     <%= f.label :longitude %><br>
     <%= f.text_field :longitude, class: "form-control" %>
   </div>
+  <%= link_to "Click Here to Find the Latitude and Longitude of an Address", "http://www.gpsvisualizer.com/geocode", {class: "btn btn-default"} %>
+  <br>
+  <br>
   <div class="form-group">
     <%= f.label :category_id %><br>
     <%#= f.number_field :category_id %>

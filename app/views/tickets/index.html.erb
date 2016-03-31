@@ -53,7 +53,7 @@ var lestyles=[{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturati
                     </td>
                     <td>
                     <% ticket.properties.each do |property| %>
-                        <div><strong><%= property.name %></strong>, <%= property.address %><%= ";" unless property == ticket.properties.last %></div>
+                        <strong><%= property.name %></strong>, <%= property.address %><%= ";" unless property == ticket.properties.last %>
                     <% end %>
                     <%= link_to "Map", ticket_path(ticket) %>
                     </td>                    

@@ -28,12 +28,8 @@ class TicketsController < ApplicationController
             marker.infowindow info_window
         end
 
-        @properties = Property.all
-        @pj = @properties.to_json(:only => [:id, :name])
-
         respond_to do |format|
             format.html
-            format.json { render :json => @pj}
             format.js
         end
     end
