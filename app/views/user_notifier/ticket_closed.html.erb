@@ -5,7 +5,7 @@
   	</head>
   	<body>
         <h1>ENS ticket#<%= @heat_ticket_number %> has been closed.</h1>
-            <p><strong>Property/Properties:</strong> <%= @property_array.map(&:upcase).to_sentence %></p>
+            <p><strong>Property/Properties:</strong> <%= @property_array.map(&:upcase).join(", ") %></p>
             <p><strong>History of Notes Leading Up to Resolution (First to Last):</strong></p>
 	        <% @versions.each do |version| %>
 	            <% version.changeset.each do |item| %>
