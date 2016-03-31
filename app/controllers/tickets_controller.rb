@@ -181,7 +181,7 @@ class TicketsController < ApplicationController
                 @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
                 @emails_for_email = @people_for_email.map {|emails| emails["name"]}    
                 @emails_for_email.each do |email|
-                    UserNotifier.ticket_closed(email, @property_array, @ticket.heat_ticket_number, @ticket_category, @ticket.resolution).deliver_now
+                    UserNotifier.ticket_closed(email, @property_array, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution).deliver_now
                 end
 
                 #code below for SMS

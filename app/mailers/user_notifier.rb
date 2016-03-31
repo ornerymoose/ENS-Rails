@@ -42,10 +42,11 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-  	def ticket_closed(user, property_array, heat_ticket_number, ticket_category, resolution)
+  	def ticket_closed(user, property_array, heat_ticket_number, ticket_category, versions, resolution)
 		@property_array = property_array
 		@heat_ticket_number = heat_ticket_number
 		@ticket_category = ticket_category
+		@versions = versions
 		@resolution = resolution
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed for: #{@property_array.map(&:upcase).to_sentence}")
