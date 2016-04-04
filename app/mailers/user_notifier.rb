@@ -39,6 +39,7 @@ class UserNotifier < ApplicationMailer
 		@additional_notes = additional_notes
 		@attachment = attachment
 		@versions = versions
+		headers["X-SMTPAPI"] = { :to => user }.to_json
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated for: #{@property_array.map(&:upcase).to_sentence}")
   	end
@@ -49,6 +50,7 @@ class UserNotifier < ApplicationMailer
 		@ticket_category = ticket_category
 		@versions = versions
 		@resolution = resolution
+		headers["X-SMTPAPI"] = { :to => user }.to_json
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed for: #{@property_array.map(&:upcase).to_sentence}")
   	end
