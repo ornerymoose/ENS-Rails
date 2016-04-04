@@ -136,9 +136,9 @@ class TicketsController < ApplicationController
                 #code below for emails
                 @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
                 @emails_for_email = @people_for_email.map {|emails| emails["name"]}
-                @emails_for_email.each do |email|
-                    UserNotifier.ticket_updated(email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment, @ticket.versions).deliver_now                
-                end
+                #@emails_for_email.each do |email|
+                    UserNotifier.ticket_updated(@emails_for_email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment, @ticket.versions).deliver_now                
+                #end
 
                 #code below for SMS        
                 @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
