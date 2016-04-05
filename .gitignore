@@ -19,3 +19,4 @@
 # Ignore Files with Sensitive Information
 db/seeds.rb
 config/app_ev.rb
+app/views/subscriptions/carrier_and_enterprise_locs.html.erb

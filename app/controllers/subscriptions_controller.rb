@@ -22,6 +22,9 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
   end
 
+  def carrier_and_enterprise_locs
+  end
+
   # GET /subscriptions/1/edit
   def edit
     #@current_sub_user = Subscription.find_by_name(current_user.email)

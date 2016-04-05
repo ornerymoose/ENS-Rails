@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :properties
   resources :categories
 
+  #route for carrier and enterprise locs
+  get '/carrier_and_enterprise_locs', to: 'subscriptions#carrier_and_enterprise_locs'
+
   #route to show papertrail history of who is updating the additional_notes column on the Ticket model
   get '/history_notes', to: 'tickets#history_notes'
 
