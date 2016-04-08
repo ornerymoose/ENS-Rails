@@ -1,4 +1,3 @@
-<%#= @people.select {|user| user["categories"].include?("Southwest Residential")} %>
 <%= form_for @ticket do |f| %>
     <% if @ticket.errors.any? %>
         <div id="error_explanation">
@@ -25,6 +24,11 @@
     <div class="form-group">
         <%= f.label :bridge_number %><br>    
         <%= f.text_field :bridge_number, class: "form-control", :placeholder => 'Enter Bridge Number if Applicable' %> 
+    </div>
+
+    <div class="form-group">
+        <%= f.label :services_affected, "Services Affected" %><br>    
+        <%= f.select(:services_affected, ['Phone','Video','Internet','Phone and Video','Internet and Video','Phone, Video, and Internet', 'Other (Explained in Notes)'], {}, {class: "form-control"}) %>
     </div>
 
     <div class="form-group">

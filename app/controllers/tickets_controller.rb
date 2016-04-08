@@ -95,7 +95,7 @@ class TicketsController < ApplicationController
                 #code below for emails
                 @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
                 @emails_for_email = @people_for_email.map {|emails| emails["name"]}
-                UserNotifier.ticket_created(@emails_for_email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment).deliver_now            
+                UserNotifier.ticket_created(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment).deliver_now            
 
                 #code below for SMS
                 @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
@@ -134,7 +134,7 @@ class TicketsController < ApplicationController
                 #code below for emails
                 @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
                 @emails_for_email = @people_for_email.map {|emails| emails["name"]}                
-                UserNotifier.ticket_updated(@emails_for_email, @property_array, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment, @ticket.versions).deliver_now                
+                UserNotifier.ticket_updated(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment, @ticket.versions).deliver_now                
 
                 #code below for SMS        
                 @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
@@ -172,7 +172,7 @@ class TicketsController < ApplicationController
                 #code below for emails
                 @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
                 @emails_for_email = @people_for_email.map {|emails| emails["name"]}                    
-                UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution).deliver_now
+                UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution).deliver_now
 
                 #code below for SMS
                 @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
@@ -222,7 +222,7 @@ class TicketsController < ApplicationController
         end
 
         def ticket_params
-            params.require(:ticket).permit(:attachment, :event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :resolution, :completed_at, :property_ids => [])
+            params.require(:ticket).permit(:attachment, :services_affected, :event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :resolution, :completed_at, :property_ids => [])
         end
 
 end

@@ -7,8 +7,9 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - #{@subscriber} has subscribed!")
 	end
 
-	def ticket_created(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes, attachment)
+	def ticket_created(user, property_array, services_affected, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes, attachment)
 		@property_array = property_array
+		@services_affected = services_affected
 		@heat_ticket_number = heat_ticket_number
 		@bridge_number = bridge_number
 		@customers_affected = customers_affected
@@ -25,8 +26,9 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - A Ticket Has Been Created for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-  	def ticket_updated(user, property_array, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes, attachment, versions)
+  	def ticket_updated(user, property_array, services_affected, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes, attachment, versions)
 		@property_array = property_array
+		@services_affected = services_affected
 		@heat_ticket_number = heat_ticket_number
 		@bridge_number = bridge_number
 		@customers_affected = customers_affected
@@ -44,8 +46,9 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-  	def ticket_closed(user, property_array, heat_ticket_number, ticket_category, versions, resolution)
+  	def ticket_closed(user, property_array, services_affected, heat_ticket_number, ticket_category, versions, resolution)
 		@property_array = property_array
+		@services_affected = services_affected
 		@heat_ticket_number = heat_ticket_number
 		@ticket_category = ticket_category
 		@versions = versions
