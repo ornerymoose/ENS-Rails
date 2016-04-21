@@ -66,6 +66,7 @@ class TicketsController < ApplicationController
         if @sub_user.nil? 
             redirect_to root_url, :flash => { :alert => "You cannot create a ticket until you subscribe." }
         end
+        @testvar = "HELLO WORLD"
     end
   
     def edit
@@ -82,8 +83,9 @@ class TicketsController < ApplicationController
                 format.html { redirect_to tickets_url, notice: 'Ticket was successfully created.' }
                 format.json { render :show, status: :created, location: @ticket }
 
+                @ticket_categories = []
                 @ticket.properties.each do |property|
-                    @ticket_category = property.category.name
+                    @ticket_categories << property.category.name
                 end
 
                 @property_array = []
@@ -93,13 +95,21 @@ class TicketsController < ApplicationController
                 end
 
                 #code below for emails
-                @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
-                @emails_for_email = @people_for_email.map {|emails| emails["name"]}
+                @people_for_emails = @sub_emails.select do |user|
+                    intersection = user["categories"] & @ticket_categories
+                    intersection.present?
+                end
+
+                @emails_for_email = @people_for_emails.map {|emails| emails["name"]}
                 UserNotifier.ticket_created(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity.downcase, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment).deliver_now            
 
                 #code below for SMS
-                @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
-                @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+                @people_for_sms = @people.select do |user|
+                    intersection = user["categories"] & @ticket_categories
+                    intersection.present?
+                end
+
+                @numbers_for_sms = @people_for_sms.map {|numbers| numbers["phone_number"]}
                 @numbers_for_sms.each do |pn|
                     @twilio_client.account.messages.create(
                         :from => "+1#{Rails.application.secrets.twilio_phone_number}",
@@ -121,8 +131,9 @@ class TicketsController < ApplicationController
                 format.html { redirect_to tickets_url, notice: 'Ticket was successfully updated.' }
                 format.json { render :show, status: :ok, location: @ticket }
 
+                @ticket_categories = []
                 @ticket.properties.each do |property|
-                    @ticket_category = property.category.name
+                    @ticket_categories << property.category.name
                 end
 
                 @property_array = []
@@ -132,13 +143,21 @@ class TicketsController < ApplicationController
                 end
 
                 #code below for emails
-                @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
-                @emails_for_email = @people_for_email.map {|emails| emails["name"]}                
+                @people_for_emails = @sub_emails.select do |user|
+                    intersection = user["categories"] & @ticket_categories
+                    intersection.present?
+                end
+               
+                @emails_for_email = @people_for_emails.map {|emails| emails["name"]}                
                 UserNotifier.ticket_updated(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket.bridge_number, @ticket.customers_affected, @ticket_category, @ticket.event_category, @ticket.event_severity, @ticket.event_status, @ticket.created_at, @ticket.problem_statement, @ticket.additional_notes, @ticket.attachment, @ticket.versions).deliver_now                
 
                 #code below for SMS        
-                @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
-                @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+                @people_for_sms = @people.select do |user|
+                    intersection = user["categories"] & @ticket_categories
+                    intersection.present?
+                end
+
+                @numbers_for_sms = @people_for_sms.map {|numbers| numbers["phone_number"]}
                 @numbers_for_sms.each do |pn|
                     @twilio_client.account.messages.create(
                         :from => "+1#{Rails.application.secrets.twilio_phone_number}",
@@ -159,10 +178,10 @@ class TicketsController < ApplicationController
                 format.html { redirect_to tickets_url, notice: 'Ticket has been successfully closed.' }
                 format.json { render :show, status: :ok, location: @ticket }
 
+                @ticket_categories = []
                 @ticket.properties.each do |property|
-                    @ticket_category = property.category.name
+                    @ticket_categories << property.category.name
                 end
-
                 @property_array = []
                 @ticket.properties.each do |property|
                     @property_name = property.name
@@ -170,13 +189,21 @@ class TicketsController < ApplicationController
                 end
 
                 #code below for emails
-                @people_for_email = @sub_emails.select {|user| user["categories"].include?(@ticket_category)}
-                @emails_for_email = @people_for_email.map {|emails| emails["name"]}                    
+                @people_for_emails = @sub_emails.select do |user|
+                    intersection = user["categories"] & @ticket_categories
+                    intersection.present?
+                end
+               
+                @emails_for_email = @people_for_emails.map {|emails| emails["name"]}                   
                 UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution).deliver_now
 
-                #code below for SMS
-                @people_for = @people.select {|user| user["categories"].include?(@ticket_category)}
-                @numbers_for_sms = @people_for.map {|numbers| numbers["phone_number"]}
+                #code below for SMS        
+                @people_for_sms = @people.select do |user|
+                    intersection = user["categories"] & @ticket_categories
+                    intersection.present?
+                end
+
+                @numbers_for_sms = @people_for_sms.map {|numbers| numbers["phone_number"]}
                 @numbers_for_sms.each do |pn|
                     @twilio_client.account.messages.create(
                         :from => "+1#{Rails.application.secrets.twilio_phone_number}",

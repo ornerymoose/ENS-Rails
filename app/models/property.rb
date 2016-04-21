@@ -8,7 +8,7 @@ class Property < ActiveRecord::Base
 		if self.address == ""
 			"#{self.name}"	
 		else 
-			"#{self.name} - #{self.address}"
+			"#{self.name} - #{self.address} - #{self.category.name}"
 		end
 	end
 end
