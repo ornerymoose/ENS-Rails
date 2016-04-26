@@ -188,6 +188,11 @@ class TicketsController < ApplicationController
                     @property_array.push(@property_name)
                 end
 
+                #TIME ELAPSED FOR TICKET
+                @ticket_create = @ticket.created_at.to_time.to_i
+                @ticket_complete = @ticket.completed_at.to_time.to_i
+                @time_passed = view_context.distance_of_time_in_words(@ticket_create, @ticket_complete)
+
                 #code below for emails
                 @people_for_emails = @sub_emails.select do |user|
                     intersection = user["categories"] & @ticket_categories
@@ -195,7 +200,7 @@ class TicketsController < ApplicationController
                 end
                
                 @emails_for_email = @people_for_emails.map {|emails| emails["name"]}                   
-                UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution).deliver_now
+                UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution, @time_passed).deliver_now
 
                 #code below for SMS        
                 @people_for_sms = @people.select do |user|

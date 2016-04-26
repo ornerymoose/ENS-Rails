@@ -46,13 +46,14 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been updated for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-  	def ticket_closed(user, property_array, services_affected, heat_ticket_number, ticket_category, versions, resolution)
+  	def ticket_closed(user, property_array, services_affected, heat_ticket_number, ticket_category, versions, resolution, time_passed)
 		@property_array = property_array
 		@services_affected = services_affected
 		@heat_ticket_number = heat_ticket_number
 		@ticket_category = ticket_category
 		@versions = versions
 		@resolution = resolution
+		@time_passed = time_passed
 		headers["X-SMTPAPI"] = { :to => user }.to_json
     	mail(:to => user,
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed for: #{@property_array.map(&:upcase).to_sentence}")
