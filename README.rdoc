@@ -1,28 +1,17 @@
-== README
+== Event Notification System (ENS)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This application is currently in use for outages that occur at properties served by Summit Broadband.
 
-Test Update
+Outages can be a mix of phone, internet, and cable issues. There are a variety of reasons as to why an outage an occur.
 
-* Ruby version
+* Notifications can be delivered via text (Twilio) or email (SendGrid). Sending around 20k emails per month. 
 
-* System dependencies
+* Given our large number of properties, users subscribe on a per category basis (a property belongs to a category)
 
-* Configuration
+* Ticket creators (network operations technicians) have the ability to edit and close tickets. 
 
-* Database creation
+* Rails paper trail gem used to track ticket history and actions
 
-* Database initialization
+* Drill down UI encompassing all open tickets, can also view on a per ticket basis (Google maps displaying customers affected)
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* Admin UI
