@@ -5,7 +5,12 @@
     </head>
     <body>
         <h1>An ENS ticket has been created. Please see below.</h1>
-            <p><strong>Property/Properties:</strong> <%= @property_array.join(", ") %></p>
+            <p><strong>Property/Properties:</strong></p>
+            <ul>
+                <% @property_array.each do |p| %>
+                    <li><%= p %></li>
+                <% end %>
+            </ul>
             <p><strong>Heat Ticket Number:</strong> <%= @heat_ticket_number %></p>
             <p><strong>Services Affected:</strong> <%= @services_affected %></p>
             <p><strong>Customers Affected:</strong> <%= @customers_affected %></p>
