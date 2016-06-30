@@ -111,11 +111,14 @@ class TicketsController < ApplicationController
 
                 @numbers_for_sms = @people_for_sms.map {|numbers| numbers["phone_number"]}
                 @numbers_for_sms.each do |pn|
-                    @twilio_client.account.messages.create(
-                        :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                        :to => "#{pn}",
-                        :body => "Hello, ticket ##{@ticket.heat_ticket_number} for #{@property_array.map(&:upcase).to_sentence} has been created via ENS. Event severity has been classified as #{@ticket.event_severity.downcase}. Please check your email for details."
-                    )
+                    #dont send SMS for Maitenance tickets. Emails are fine. 
+                    if @ticket.event_category != "Maintenance"
+                        @twilio_client.account.messages.create(
+                            :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                            :to => "#{pn}",
+                            :body => "Hello, ticket ##{@ticket.heat_ticket_number} for #{@property_array.map(&:upcase).to_sentence} has been created via ENS. Event severity has been classified as #{@ticket.event_severity.downcase}. Please check your email for details."
+                        )
+                    end
                 end
             
             else
@@ -159,11 +162,14 @@ class TicketsController < ApplicationController
 
                 @numbers_for_sms = @people_for_sms.map {|numbers| numbers["phone_number"]}
                 @numbers_for_sms.each do |pn|
-                    @twilio_client.account.messages.create(
-                        :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                        :to => "#{pn}",
-                        :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been updated via ENS. Please check your email for details."
-                    )
+                    #dont send SMS for Maitenance tickets. Emails are fine. 
+                    if @ticket.event_category != "Maintenance"
+                        @twilio_client.account.messages.create(
+                            :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                            :to => "#{pn}",
+                            :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been updated via ENS. Please check your email for details."
+                        )
+                    end
                 end
             else
                 format.html { render :edit }
@@ -210,11 +216,14 @@ class TicketsController < ApplicationController
 
                 @numbers_for_sms = @people_for_sms.map {|numbers| numbers["phone_number"]}
                 @numbers_for_sms.each do |pn|
-                    @twilio_client.account.messages.create(
-                        :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                        :to => "#{pn}",
-                        :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for details. Resolution: #{@ticket.resolution}"
-                    )
+                    #dont send SMS for Maitenance tickets. Emails are fine. 
+                    if @ticket.event_category != "Maintenance"
+                        @twilio_client.account.messages.create(
+                            :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                            :to => "#{pn}",
+                            :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for details. Resolution: #{@ticket.resolution}"
+                        )
+                    end
                 end
             else
                 format.html { render :close }
