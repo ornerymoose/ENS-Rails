@@ -138,8 +138,8 @@ class TicketsController < ApplicationController
 
                 @property_array = []
                 @ticket.properties.each do |property|
-                    @property_name = property.name
-                    @property_array.push(@property_name)
+                    property_full = property.name + " - " + property.address
+                    @property_array.push(property_full)
                 end
 
                 #code below for emails
