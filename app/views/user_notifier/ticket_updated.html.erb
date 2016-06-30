@@ -20,7 +20,7 @@
             <p><strong>Attachments:</strong> N/A</p>
         <% end %>
         <p><strong>History of Additional Notes (From First to Last):</strong></p>
-         <% @versions.each do |version| %>
+         <% @versions.reverse.each do |version| %>
             <% version.changeset.each do |item| %>
                 <i><%= item.last.last %></i>
             <% end %>
