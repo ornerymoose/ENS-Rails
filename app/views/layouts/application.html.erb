@@ -28,8 +28,11 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>
-                <% if current_user.role == "admin" %>
+                <% if current_user.role == "admin" && current_user.id != 93 %>
                     <li><%= link_to "Admin", admin_dashboard_path, method: :get, :class => 'navbar-link'  %></li>    
+                <% end %>
+                <% if current_user.id == 93 %>
+                    <li><%= link_to "Edit Properties", properties_path, :class => 'navbar-link'  %></li>    
                 <% end %>
                 <li><%= link_to "Logout", destroy_user_session_path, method: :get, :class => 'navbar-link'  %></li>
                 <% if @sub_user %>
