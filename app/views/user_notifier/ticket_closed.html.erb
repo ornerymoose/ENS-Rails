@@ -7,7 +7,7 @@
         <h1>ENS ticket#<%= @heat_ticket_number %> has been closed.</h1>
             <p><strong>Property/Properties:</strong> <%= @property_array.map(&:upcase).join(", ") %></p>
             <p><strong>Duration of Ticket:</strong> <%= @time_passed %></p>
-            <p><strong>History of Notes Leading Up to Resolution (First to Last):</strong></p>
+            <p><strong>History of Notes Leading Up to Resolution (From Last to First):</strong></p>
 	        <% @versions.reverse.each do |version| %>
 	            <% version.changeset.each do |item| %>
 	                <i><%= item.last.last %></i>
