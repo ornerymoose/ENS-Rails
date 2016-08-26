@@ -28,7 +28,7 @@
 
     <div class="form-group">
         <%= f.label :services_affected, "Services Affected" %><br>    
-        <%= f.select(:services_affected, ['Phone','Video','Internet','Phone and Video','Phone and Internet','Internet and Video','Phone, Video, and Internet', 'Other (Explained in Notes)'], {}, {class: "form-control"}) %>
+        <%= f.select(:services_affected, ['Phone','Video','Internet','Phone and Video','Phone and Internet','Internet and Video','Phone, Video, and Internet', 'Other (Explained in Notes)', 'Dark Fiber'], {}, {class: "form-control"}) %>
     </div>
 
     <div class="form-group">
@@ -38,7 +38,7 @@
 
     <div class="form-group">
         <%= f.label :event_category %><br>
-        <%= f.select(:event_category, ['Maintenance','Early Warning','Informational','Simplex','Outage'], {}, {class: "form-control"}) %>
+        <%= f.select(:event_category, ['Maintenance','Early Warning','Informational','Simplex','Outage', 'Degraded Service'], {}, {class: "form-control"}) %>
     </div>
 
     <div class="form-group">
