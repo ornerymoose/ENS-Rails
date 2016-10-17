@@ -30,6 +30,7 @@
             <% if user_signed_in? %>
                 <% if current_user.role == "admin" && current_user.id != 93 %>
                     <li><%= link_to "Admin", admin_dashboard_path, method: :get, :class => 'navbar-link'  %></li>    
+                    <li><%= link_to 'Download Ticket History', tickets_path(format: :csv) %><%#= link_to "Export Ticket History", "/admin/tickets.csv" %></li>
                 <% end %>
                 <% if current_user.id == 93 %>
                     <li><%= link_to "Edit Properties", properties_path, :class => 'navbar-link'  %></li>    

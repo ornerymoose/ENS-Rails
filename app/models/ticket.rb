@@ -3,6 +3,7 @@ class Ticket < ActiveRecord::Base
 	has_many :properties, through: :categorizations
 	belongs_to :user
 	validates_presence_of :properties, :problem_statement, :additional_notes, :customers_affected, :heat_ticket_number
+	validates_presence_of :resolution, on: :close
 	has_paper_trail :only => [:additional_notes]
 	
 	#this will 'hide' tickets from tickets#index page if they have a completed_at value of nil. When a ticket is initially created,
@@ -18,6 +19,18 @@ class Ticket < ActiveRecord::Base
 
   	def s3_credentials
     	{:bucket => ENV["AWS_BUCKET"], :access_key_id => ENV["AWS_ACCESS_KEY_ID"], :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"]}
+  	end
+
+  	def self.generate_csv
+    	tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
+      	csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
+      		# add headers
+      		csv << [ 'Created At', 'Completed At', 'Event Status', 'Customers Affected', 'Event Severity', 'Event Category', 'Heat Ticket Number', 'Bridge Number', 'Problem Statement', 'Additional Notes', 'Resolution', 'Services Affected' ]
+      		# add data
+      		tickets.each do |ticket|
+        		csv << [ ticket.created_at, ticket.completed_at, ticket.event_status, ticket.customers_affected, ticket.event_severity, ticket.event_category, ticket.heat_ticket_number, ticket.bridge_number, ticket.problem_statement, ticket.additional_notes, ticket.resolution, ticket.services_affected ]
+      		end      
+    	end
   	end
 
 end

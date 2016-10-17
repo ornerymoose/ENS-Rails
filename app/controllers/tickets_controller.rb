@@ -31,6 +31,7 @@ class TicketsController < ApplicationController
         respond_to do |format|
             format.html
             format.js
+            format.csv { send_data @tickets.generate_csv }
         end
     end
 
@@ -265,5 +266,4 @@ class TicketsController < ApplicationController
         def ticket_params
             params.require(:ticket).permit(:attachment, :services_affected, :event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :resolution, :completed_at, :property_ids => [])
         end
-
 end
