@@ -26,7 +26,7 @@ class Ticket < ActiveRecord::Base
       	csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
       		# add headers
       		csv << [ 'Created At', 'Completed At', 'Event Status', 'Customers Affected', 'Event Severity', 'Event Category', 'Heat Ticket Number', 'Bridge Number', 'Problem Statement', 'Additional Notes', 'Resolution', 'Services Affected' ]
-      		# add data
+      		# add data here
       		tickets.each do |ticket|
         		csv << [ ticket.created_at, ticket.completed_at, ticket.event_status, ticket.customers_affected, ticket.event_severity, ticket.event_category, ticket.heat_ticket_number, ticket.bridge_number, ticket.problem_statement, ticket.additional_notes, ticket.resolution, ticket.services_affected ]
       		end      

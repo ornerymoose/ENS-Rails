@@ -13,7 +13,7 @@ class TicketsController < ApplicationController
   
     def index
         @tickets = Ticket.active
-
+        @last_weeks_tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
         @ticket_all_properties = Array.new
         @tickets.each do |ticket|
             ticket.properties.each do |property|
@@ -31,7 +31,7 @@ class TicketsController < ApplicationController
         respond_to do |format|
             format.html
             format.js
-            format.csv { send_data @tickets.generate_csv }
+            format.csv { send_data @last_weeks_tickets.generate_csv }
         end
     end
 
