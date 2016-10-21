@@ -222,7 +222,7 @@ class TicketsController < ApplicationController
                         @twilio_client.account.messages.create(
                             :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                             :to => "#{pn}",
-                            :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for details. Resolution: #{@ticket.resolution}"
+                            :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for a more detailed breakdown."
                         )
                     end
                 end
