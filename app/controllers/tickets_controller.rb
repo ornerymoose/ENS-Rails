@@ -207,7 +207,7 @@ class TicketsController < ApplicationController
                 end
                
                 @emails_for_email = @people_for_emails.map {|emails| emails["name"]}                   
-                UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution, @time_passed).deliver_now
+                UserNotifier.ticket_closed(@emails_for_email, @property_array, @ticket.services_affected, @ticket.heat_ticket_number, @ticket_category, @ticket.versions, @ticket.resolution, @time_passed, @ticket.problem_statement).deliver_now
 
                 #code below for SMS        
                 @people_for_sms = @people.select do |user|
