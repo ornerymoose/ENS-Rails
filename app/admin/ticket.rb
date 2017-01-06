@@ -17,4 +17,24 @@ ActiveAdmin.register Ticket do
 		f.button "Update This Ticket"
 	end
 
+	csv do
+    	column :heat_ticket_number
+    	column :event_category
+    	column :event_severity
+    	column :customers_affected
+    	column :services_affected
+    	column :problem_statement
+    	column :created_at
+    	column :completed_at
+    	column(:duration) {|t| 
+    		if !t.completed_at.nil?
+    			distance_of_time_in_words(t.completed_at - t.created_at)
+    		end
+    	}	
+    	column :resolution
+    	column :event_status
+    	column :bridge_number
+    	column :additional_notes
+  	end
+
 end
