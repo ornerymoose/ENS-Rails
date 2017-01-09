@@ -25,10 +25,13 @@ class Ticket < ActiveRecord::Base
     	tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
       	csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
       		# add headers
-      		csv << [ 'Created At', 'Completed At', 'Event Status', 'Customers Affected', 'Event Severity', 'Event Category', 'Heat Ticket Number', 'Bridge Number', 'Problem Statement', 'Additional Notes', 'Resolution', 'Services Affected' ]
+      		csv << [ 'Created At', 'Completed At', 'Event Status', 'Customers Affected', 'Event Severity', 'Event Category', 'Ticket Duration', 'Heat Ticket Number', 'Bridge Number', 'Problem Statement', 'Additional Notes', 'Resolution', 'Services Affected' ]
       		# add data here
       		tickets.each do |ticket|
-        		csv << [ ticket.created_at, ticket.completed_at, ticket.event_status, ticket.customers_affected, ticket.event_severity, ticket.event_category, ticket.heat_ticket_number, ticket.bridge_number, ticket.problem_statement, ticket.additional_notes, ticket.resolution, ticket.services_affected ]
+            if !ticket.completed_at.nil?
+              ticket_duration = distance_of_time_in_words(ticket.completed_at - ticket.created_at)
+            end
+        		csv << [ ticket.created_at, ticket.completed_at, ticket.event_status, ticket.customers_affected, ticket.event_severity, ticket.event_category, ticket_duration, ticket.heat_ticket_number, ticket.bridge_number, ticket.problem_statement, ticket.additional_notes, ticket.resolution, ticket.services_affected ]
       		end      
     	end
   	end
