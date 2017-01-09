@@ -29,7 +29,7 @@ class Ticket < ActiveRecord::Base
       		# add data here
       		tickets.each do |ticket|
             if !ticket.completed_at.nil?
-              ticket_duration = distance_of_time_in_words(ticket.completed_at - ticket.created_at)
+              ticket_duration = helper.distance_of_time_in_words(ticket.completed_at - ticket.created_at)
             end
         		csv << [ ticket.created_at, ticket.completed_at, ticket.event_status, ticket.customers_affected, ticket.event_severity, ticket.event_category, ticket_duration, ticket.heat_ticket_number, ticket.bridge_number, ticket.problem_statement, ticket.additional_notes, ticket.resolution, ticket.services_affected ]
       		end      
