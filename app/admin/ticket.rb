@@ -28,7 +28,7 @@ ActiveAdmin.register Ticket do
     	column :completed_at
     	column(:duration) {|t| 
     		if !t.completed_at.nil?
-    			distance_of_time_in_words(t.completed_at - t.created_at)
+                Time.at(t.completed_at - t.created_at).utc.strftime("%H:%M:%S")
     		end
     	}	
     	column :resolution
