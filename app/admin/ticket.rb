@@ -2,6 +2,13 @@ ActiveAdmin.register Ticket do
 
 	permit_params :event_status, :event_severity, :event_category, :problem_statement, :additional_notes, :bridge_number, :heat_ticket_number, :customers_affected, :property_ids => []
 
+    # member_action :show do
+    #     @ticket = Ticket.includes(versions: :item).find(params[:id])
+    #     @versions = @ticket.versions 
+    #     @ticket = @ticket.versions[params[:version].to_i].reify if params[:version]
+    #     show! #it seems to need this
+    # end
+
 	form do |f|
 		f.inputs "Ticket Details" do
 			f.input :event_status
@@ -18,6 +25,12 @@ ActiveAdmin.register Ticket do
 	end
 
 	csv do
+        column(:ModifiedBy) { |t|
+            widget = Ticket.find(t.id)
+            v = widget.versions.last
+            u = User.find_by_id(v.whodunnit)
+            "#{u.email}"
+        }
     	column :heat_ticket_number
     	column :event_category
     	column :event_severity
