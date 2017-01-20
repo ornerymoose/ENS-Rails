@@ -32,7 +32,7 @@ class Ticket < ActiveRecord::Base
               ticket_duration = Time.at(ticket.completed_at - ticket.created_at).utc.strftime("%H:%M:%S")
             end
             #3 lines below for who edited a ticket
-            widget = ticket.id
+            widget = Ticket.find(ticket.id)
             v = widget.versions.last
             u = User.find_by_id(v.whodunnit)
         		csv << [u.email, ticket.heat_ticket_number, ticket.event_category, ticket.event_severity, ticket.customers_affected, ticket.services_affected, ticket.problem_statement, ticket.created_at, ticket.completed_at, ticket_duration, ticket.resolution, ticket.event_status, ticket.bridge_number, ticket.additional_notes ]
