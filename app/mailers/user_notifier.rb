@@ -23,7 +23,7 @@ class UserNotifier < ApplicationMailer
 		@attachment = attachment
 		headers["X-SMTPAPI"] = { :to => user }.to_json
     	mail(:to => user,
-    	:subject => "ENS - A Ticket Has Been Created for: #{@property_array.map(&:upcase).to_sentence}")
+    	:subject => "ENS - Ticket##{@heat_ticket_number} has been created for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
   	def ticket_updated(user, property_array, services_affected, heat_ticket_number, bridge_number, customers_affected, ticket_category, event_category, event_severity, event_status, created_at, problem_statement, additional_notes, attachment, versions)
