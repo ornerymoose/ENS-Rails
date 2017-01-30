@@ -56,3 +56,4 @@ gem 'phony_rails'
 gem 'paperclip', '~> 4.3'
 gem 'aws-sdk-v1'
 gem 'markerclustererplus-rails'
+gem 'whenever', :require => false
