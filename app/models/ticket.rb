@@ -25,7 +25,7 @@ class Ticket < ActiveRecord::Base
     	tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
       	csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
       		# add headers
-      		csv << ['Modified By', 'Heat Ticket Number', 'Event Category', 'Event Severity', 'Customers Affected', 'Services Affected', 'Problem Statement', 'Created At', 'Completed At', 'Duration', 'Resolution', 'Event Status', 'Bridge Number', 'Additional Notes' ]
+      		csv << ['Created By', 'Heat Ticket Number', 'Event Category', 'Event Severity', 'Customers Affected', 'Services Affected', 'Problem Statement', 'Created At', 'Completed At', 'Duration', 'Resolution', 'Event Status', 'Bridge Number', 'Additional Notes' ]
           # add data here
       		tickets.each do |ticket|
             if !ticket.completed_at.nil?
