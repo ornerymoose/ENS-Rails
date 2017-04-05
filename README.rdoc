@@ -14,4 +14,4 @@ Outages can be a mix of phone, internet, and cable issues. There are a variety o
 
 * Drill down UI encompassing all open tickets, can also view on a per ticket basis (Google maps displaying customers affected)
 
-* Admin UI
+* Admin User Interface
