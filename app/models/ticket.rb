@@ -22,22 +22,21 @@ class Ticket < ActiveRecord::Base
   	end
 
   	def self.generate_csv
-    	tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
-      	csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
-      		#add headers
-      		csv << ['Created By', 'Heat Ticket Number', 'Event Category', 'Event Severity', 'Customers Affected', 'Services Affected', 'Problem Statement', 'Created At', 'Completed At', 'Duration', 'Resolution', 'Event Status', 'Bridge Number', 'Additional Notes' ]
+        tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
+        csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
+            #add headers
+            csv << ['Created By', 'Heat Ticket Number', 'Event Category', 'Event Severity', 'Customers Affected', 'Services Affected', 'Problem Statement', 'Created At', 'Completed At', 'Duration', 'Resolution', 'Event Status', 'Bridge Number', 'Additional Notes' ]
             #add data here
-      		tickets.each do |ticket|
-            if !ticket.completed_at.nil?
-              ticket_duration = Time.at(ticket.completed_at - ticket.created_at).utc.strftime("%H:%M:%S")
-            end
-            #3 lines below for who edited a ticket
-            widget = Ticket.find(ticket.id)
-            v = widget.versions.last
-            u = User.find_by_id(v.whodunnit)
-        	csv << [u.email, ticket.heat_ticket_number, ticket.event_category, ticket.event_severity, ticket.customers_affected, ticket.services_affected, ticket.problem_statement, ticket.created_at, ticket.completed_at, ticket_duration, ticket.resolution, ticket.event_status, ticket.bridge_number, ticket.additional_notes]
-      		end      
-    	end
-  	end
-
+            tickets.each do |ticket|
+                if !ticket.completed_at.nil?
+                    ticket_duration = Time.at(ticket.completed_at - ticket.created_at).utc.strftime("%H:%M:%S")
+                end
+                #3 lines below for who edited a ticket
+                widget = Ticket.find(ticket.id)
+                v = widget.versions.last
+                u = User.find_by_id(v.whodunnit)
+                csv << [u.email, ticket.heat_ticket_number, ticket.event_category, ticket.event_severity, ticket.customers_affected, ticket.services_affected, ticket.problem_statement, ticket.created_at, ticket.completed_at, ticket_duration, ticket.resolution, ticket.event_status, ticket.bridge_number, ticket.additional_notes]
+            end      
+        end
+    end
 end
