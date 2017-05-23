@@ -67,7 +67,6 @@ class TicketsController < ApplicationController
         if @sub_user.nil? 
             redirect_to root_url, :flash => { :alert => "You cannot create a ticket until you subscribe." }
         end
-        @testvar = "HELLO WORLD"
     end
   
     def edit
