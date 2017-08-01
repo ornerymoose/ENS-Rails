@@ -21,3 +21,4 @@ db/seeds.rb
 config/app_ev.rb
 app/views/subscriptions/carrier_and_enterprise_locs.html.erb
 .DS_Store
+vendor/assets/.DS_Store
