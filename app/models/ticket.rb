@@ -24,7 +24,7 @@ class Ticket < ActiveRecord::Base
     #will end up removing generate_csv method when send_weekly_report method is in production
     def self.send_weekly_report
         tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
-        file = "#{Rails.root}/public/#{Date.today}_to_#{Date.today - 1.week}.csv"
+        file = "#{Rails.root}/public/ENS_weekly_report_#{Date.today}_to_#{Date.today - 1.week}.csv"
         CSV.open(file, 'w') do |csv|
             csv << ['Created By', 'Heat Ticket Number', 'Event Category', 'Event Severity', 'Customers Affected', 'Services Affected', 'Problem Statement', 'Created At', 'Completed At', 'Duration', 'Resolution', 'Event Status', 'Bridge Number', 'Additional Notes']      
             tickets.each do |ticket|
