@@ -12,11 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
-//= require select2.min
-//= require bootstrap.min
 //= require turbolinks
+//= require select2.min
+//= require jquery-ui
+//= require bootstrap.min
 //= require underscore
 //= require gmaps/google
 //= require markerclusterer
-//= require_tree .
+//= require properties
+//= require tickets
