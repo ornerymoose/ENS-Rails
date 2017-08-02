@@ -8,12 +8,12 @@ class Subscription < ActiveRecord::Base
 	validate :mobile_phone_number
 
 	def mobile_phone_number
-		lookup_client = Twilio::REST::LookupsClient.new Rails.application.secrets.twilio_sid, Rails.application.secrets.twilio_token
+		lookup_client = Twilio::REST::Client.new Rails.application.secrets.twilio_sid, Rails.application.secrets.twilio_token
 		begin
 			if self.phone_number.blank?
 				return true
 			end
-			response = lookup_client.phone_numbers.get("#{self.phone_number}")
+			response = lookup_client.lookups.v1.phone_numbers("#{self.phone_number}").fetch(type: 'carrier')
 			response.phone_number #if invalid, throws an exception. If valid, no problems.
 			return true
 		rescue => e
