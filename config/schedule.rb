@@ -19,10 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 24.hours do
-  rake log:clear
-end
-
 every 1.day, :at => '10:45 am' do
   rake "send_weekly_report"
 end
