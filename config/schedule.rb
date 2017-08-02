@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, :at => '10:45 am' do
+every 1.day, :at => '10:50 am' do
   rake "send_weekly_report"
 end
 
