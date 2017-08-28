@@ -31,7 +31,7 @@
                 <% if current_user.role == "admin" && current_user.id != 93 %>
                     <li><%= link_to "Admin", admin_dashboard_path, method: :get, :class => 'navbar-link'  %></li>    
                 <% end %>
-                <% if current_user.id == 93 %>
+                <% if current_user.id == 93 || current_user.id == 9 || current_user.id == 1 %>
                     <li><%= link_to "Edit Properties", properties_path, :class => 'navbar-link'  %></li>    
                     <li><%= link_to 'Download Last Weeks Tickets', tickets_path(format: :csv) %></li>
                 <% end %>
