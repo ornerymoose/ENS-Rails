@@ -1,4 +1,4 @@
-desc "Send Weekly ENS Report"
+desc "Send ENS Report"
 task send_weekly_report: :environment do
     ActiveRecord::Base.establish_connection(:production)
     puts "You are running this rake task in the #{Rails.env} environment."
