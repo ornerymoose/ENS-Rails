@@ -62,6 +62,7 @@ class UserNotifier < ApplicationMailer
 
     def send_report(user, attachment, timeframe)
         attachment = []
+        cycle = ""
         if timeframe == 7
             file = "#{Rails.root}/public/ENS_report.csv"
             cycle = "Weekly"
