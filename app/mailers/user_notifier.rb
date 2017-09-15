@@ -60,18 +60,22 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-    def send_report(user, attachment)
+    def send_report(user, attachment, timeframe)
         attachment = []
-        file1 = "#{Rails.root}/public/ENS_weekly_report_#{Date.today}_to_#{Date.today - 1.week}.csv"
-        attachment.push(file1)
+        if timeframe == 7
+            file = "#{Rails.root}/public/ENS_weekly_#{Date.today}_to_#{Date.today - timeframe}_report.csv"
+        else 
+            file = "#{Rails.root}/public/ENS_monthly_#{Date.today}_to_#{Date.today - timeframe}_report.csv"
+        end
+
+        attachment.push(file)
 
         attachment.each do |file_to_send|
-            #File.read("#{file_to_send}")
             attachments["#{file_to_send.split("/").last}"] = File.read("#{file_to_send}")
         end
         
         headers["X-SMTPAPI"] = { :to => user }.to_json
-        mail(:to => user, :subject => "ENS Weekly Report - #{Date.today - 1.week} to #{Date.today}")
+        mail(:to => user, :subject => "ENS Report - #{Date.today - timeframe} to #{Date.today}")
     end
         
     
