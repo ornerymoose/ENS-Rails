@@ -67,7 +67,7 @@ class UserNotifier < ApplicationMailer
         else 
             puts "line 68, class for timeframe: #{timeframe.class}"
             puts "line 69, class for Date.today: #{Date.today}"
-            file = "#{Rails.root}/public/ENS_monthly_#{Date.today}_to_#{Date.today - timeframe.to_i}_report.csv"
+            file = "#{Rails.root}/public/ENS_monthly_#{Date.today}_to_#{Date.today - timeframe.to_i.days}_report.csv"
             puts "line 71, class for timeframe now: #{timeframe.class}"
         end
 
