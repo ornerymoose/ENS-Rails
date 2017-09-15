@@ -78,7 +78,7 @@ class UserNotifier < ApplicationMailer
         end
         
         headers["X-SMTPAPI"] = { :to => user }.to_json
-        mail(:to => user, :subject => "ENS Report - #{Date.today - timeframe.days} to #{Date.today}")
+        mail(:to => user, :subject => "ENS Report - #{Date.today - timeframe.to_i.days} to #{Date.today}")
     end
         
     
