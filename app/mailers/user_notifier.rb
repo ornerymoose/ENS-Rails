@@ -63,9 +63,9 @@ class UserNotifier < ApplicationMailer
     def send_report(user, attachment, timeframe)
         attachment = []
         if timeframe == 7
-            file = "#{Rails.root}/public/ENS_weekly_#{Date.today}_to_#{Date.today - timeframe.days}_report.csv"
+            file = "#{Rails.root}/public/ENS_weekly_#{Date.today}_to_#{Date.today - timeframe}_report.csv"
         else 
-            file = "#{Rails.root}/public/ENS_monthly_#{Date.today}_to_#{Date.today - timeframe.days}_report.csv"
+            file = "#{Rails.root}/public/ENS_monthly_#{Date.today}_to_#{Date.today - timeframe}_report.csv"
         end
 
         attachment.push(file)
