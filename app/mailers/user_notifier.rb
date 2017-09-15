@@ -66,7 +66,8 @@ class UserNotifier < ApplicationMailer
         attachment.push(file1)
 
         attachment.each do |file_to_send|
-            File.read("#{file_to_send}")
+            #File.read("#{file_to_send}")
+            attachments["#{file_to_send.split("/").last}"] = File.read("#{file_to_send}")
         end
         
         headers["X-SMTPAPI"] = { :to => user }.to_json
