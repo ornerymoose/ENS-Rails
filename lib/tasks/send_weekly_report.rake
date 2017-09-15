@@ -5,9 +5,9 @@ task send_weekly_report: :environment do
     arg1 = ARGV
     reformatted_arg = arg1.map {|x| x.to_i}.pop
     puts "Object type: #{arg1.class}"
-    Ticket.send_report(reformatted_arg)
+    Ticket.send_report(reformatted_arg.days)
     tickets = TicketsController.new
-    tickets.send_reports(reformatted_arg)
+    tickets.send_reports(reformatted_arg.days)
     exit
 end
 
