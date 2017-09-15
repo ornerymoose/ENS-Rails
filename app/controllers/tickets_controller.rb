@@ -11,6 +11,11 @@ class TicketsController < ApplicationController
         @versions = PaperTrail::Version.order('created_at DESC')
     end
   
+    #for sending weekly reports to Otis
+    def send_reports
+        UserNotifier.send_report(ENV["NOC_EMPLOYEES"].split(", "), "#{Rails.root}/public/ENS_weekly_report_#{Date.today}_to_#{Date.today - 1.week}.csv").deliver_now
+    end
+
     def index
         @tickets = Ticket.active
         @last_weeks_tickets = Ticket.where('created_at >= ?', Date.today - 1.week)
