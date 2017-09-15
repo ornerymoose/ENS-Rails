@@ -13,7 +13,7 @@ class TicketsController < ApplicationController
   
     #for sending weekly reports to Otis
     def send_reports(timeframe)
-        UserNotifier.send_report(ENV["NOC_EMPLOYEES"].split(", "), "#{Rails.root}/public/*report.csv", "#{timeframe.days}").deliver_now
+        UserNotifier.send_report(ENV["NOC_EMPLOYEES"].split(", "), "#{Rails.root}/public/*report.csv", "#{timeframe}").deliver_now
     end
 
     def index
