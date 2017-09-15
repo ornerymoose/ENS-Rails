@@ -42,7 +42,7 @@ class Ticket < ActiveRecord::Base
     # end
 
     def self.send_report(timeframe)
-        tickets = Ticket.where('created_at >= ?', Date.today - "#{timeframe.days}")
+        tickets = Ticket.where('created_at >= ?', Date.today - timeframe.days)
         puts "Ticket count for weekly report: #{tickets.count}"
         file = "#{Rails.root}/public/ENS_weekly_#{Date.today}_to_#{Date.today - timeframe}_report.csv"
         CSV.open(file, 'w') do |csv|
