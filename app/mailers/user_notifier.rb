@@ -62,16 +62,8 @@ class UserNotifier < ApplicationMailer
 
     def send_report(user, attachment, timeframe)
         attachment = []
-        if timeframe == "7"
-            file = "#{Rails.root}/public/ENS_report.csv"
-            cycle = "Weekly"
-        else 
-            puts "line 68, class for timeframe: #{timeframe.class}"
-            puts "line 69, class for Date.today: #{Date.today}"
-            file = "#{Rails.root}/public/ENS_report.csv"
-            puts "line 71, class for timeframe now: #{timeframe.class}"
-            cycle = "Monthly"
-        end
+
+        file = "#{Rails.root}/public/ENS_report.csv"
 
         attachment.push(file)
 
@@ -80,7 +72,7 @@ class UserNotifier < ApplicationMailer
         end
         
         headers["X-SMTPAPI"] = { :to => user }.to_json
-        mail(:to => user, :subject => "ENS #{cycle} Report")
+        mail(:to => user, :subject => "ENS Report")
     end
         
     
