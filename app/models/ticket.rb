@@ -44,14 +44,13 @@ class Ticket < ActiveRecord::Base
     def self.send_report(timeframe)
         tickets = Ticket.where('created_at >= ?', Date.today - timeframe.to_i.days)
         puts "Ticket count for weekly report: #{tickets.count}"
-        file = "#{Rails.root}/public/ENS_weekly_#{Date.today}_to_#{Date.today - timeframe}_report.csv"
+        file = "#{Rails.root}/public/ENS_weekly_#{Date.today}_to_#{Date.today - timeframe.to_i.days}_report.csv"
         CSV.open(file, 'w') do |csv|
             csv << ['Created By','Heat Ticket #','Event Category','Event Severity','Customers Affected','Services Affected','Problem Statement','Created At','Completed At','Duration','Resolution','Event Status','Bridge Number','Additional Notes','Category Name','Properties']
             tickets.each do |t|
                 if !t.completed_at.nil?
                     ticket_duration = Time.at(t.completed_at - t.created_at).utc.strftime("%H:%M:%S")
                 end
-                #3 lines below for who edited a ticket
                 widget = Ticket.find(t.id)
                 v = widget.versions.first
                 u = User.find_by_id(v.whodunnit)
