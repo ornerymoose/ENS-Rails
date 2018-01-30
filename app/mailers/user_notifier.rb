@@ -60,20 +60,14 @@ class UserNotifier < ApplicationMailer
     	:subject => "ENS - Ticket##{@heat_ticket_number} has been closed for: #{@property_array.map(&:upcase).to_sentence}")
   	end
 
-    def send_report(user, attachment, timeframe)
+    def send_report(user)
         attachment = []
-
-        file = "#{Rails.root}/public/ENS_report.csv"
-
+        file = "#{Rails.root}/public/ens_report.csv"
         attachment.push(file)
-
         attachment.each do |file_to_send|
             attachments["#{file_to_send.split("/").last}"] = File.read("#{file_to_send}")
         end
-        
         headers["X-SMTPAPI"] = { :to => user }.to_json
         mail(:to => user, :subject => "ENS Report")
     end
-        
-    
 end
