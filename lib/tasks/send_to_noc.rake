@@ -1,5 +1,5 @@
 #Sample of how to pass in argument
-#rake report:generate_weekly["#{Date.today - 30.days}"]
+#rake report:send_to_noc["#{Date.today - 30.days}"]
 desc "Send ENS Report"
 namespace :report do
   task :send_to_noc, [:timeframe] => :environment do |t, args|

@@ -64,7 +64,7 @@ class Ticket < ActiveRecord::Base
       tickets = Ticket.where('created_at >= ?', created_at)
       puts "Ticket Count: #{tickets.count}"
       CSV.open(file, 'w') do |writer|
-        writer << ['Heat Ticket #','Event Category','Event Severity','Customers Affected','Services Affected','Problem Statement','Created At','Completed At','Duration','Resolution','Event Status','Bridge Number','Additional Notes','Category Name','Properties']
+        writer << ['Created By','Heat Ticket #','Event Category','Event Severity','Customers Affected','Services Affected','Problem Statement','Created At','Completed At','Duration','Resolution','Event Status','Bridge Number','Additional Notes','Category Name','Properties']
         tickets.each do |t|
           if !t.completed_at.nil?
             duration = Time.at(t.completed_at - t.created_at).utc.strftime("%H:%M:%S")
@@ -72,7 +72,7 @@ class Ticket < ActiveRecord::Base
           widget = Ticket.find(t.id)
           v = widget.versions.first
           u = User.find_by_id(v.whodunnit)
-          writer << [t.heat_ticket_number, t.event_category, t.event_severity, t.customers_affected, t.services_affected, t.problem_statement,t.created_at, t.completed_at, duration, t.resolution, t.event_status, t.bridge_number, t.additional_notes, t.properties.map {|p| p.category.name}.join(", "), t.properties.map {|p| p.name}.join(", ")]
+          writer << [u.email, t.heat_ticket_number, t.event_category, t.event_severity, t.customers_affected, t.services_affected, t.problem_statement,t.created_at, t.completed_at, duration, t.resolution, t.event_status, t.bridge_number, t.additional_notes, t.properties.map {|p| p.category.name}.join(", "), t.properties.map {|p| p.name}.join(", ")]
         end
       end    
     end
