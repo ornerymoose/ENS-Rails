@@ -229,11 +229,17 @@ class TicketsController < ApplicationController
                 @numbers_for_sms.each do |pn|
                     #dont send SMS for Maitenance tickets. Emails are fine. 
                     if @ticket.event_category != "Maintenance"
+                      begin
                         @twilio_client.messages.create(
-                            :from => "+1#{Rails.application.secrets.twilio_phone_number}",
-                            :to => "#{pn}",
-                            :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for a more detailed breakdown."
+                          :from => "+1#{Rails.application.secrets.twilio_phone_number}",
+                          :to => "#{pn}",
+                          :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for a more detailed breakdown."
                         )
+                      rescue Twilio::REST::RequestError => e
+                        if e.code == 21604
+                          puts e.message
+                        end
+                      end
                     end
                 end
             else
