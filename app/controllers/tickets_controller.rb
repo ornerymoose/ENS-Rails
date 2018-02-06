@@ -118,11 +118,15 @@ class TicketsController < ApplicationController
                 @numbers_for_sms.each do |pn|
                     #dont send SMS for Maitenance tickets. Emails are fine. 
                     if @ticket.event_category != "Maintenance"
+                      begin
                         @twilio_client.messages.create(
                             :from => "+1#{Rails.application.secrets.twilio_phone_number}",
                             :to => "#{pn}",
                             :body => "Hello, ticket ##{@ticket.heat_ticket_number} for #{@property_array.map(&:upcase).to_sentence} has been created via ENS. Event severity has been classified as #{@ticket.event_severity.downcase}. Please check your email for details."
                         )
+                      rescue Twilio::REST::TwilioError => e
+                        puts e.message
+                      end
                     end
                 end
             
@@ -175,10 +179,10 @@ class TicketsController < ApplicationController
                                 :to => "#{pn}",
                                 :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been updated via ENS. Please check your email for details."
                             )
-                        rescue Twilio::REST::RequestError => e
-                            if e.code == 21610
+                        rescue Twilio::REST::TwilioError => e
+                            #if e.code == 21610
                                 puts e.message
-                            end
+                            #end
                         end
                     end
                 end
@@ -235,10 +239,10 @@ class TicketsController < ApplicationController
                           :to => "#{pn}",
                           :body => "Hello, ticket ##{@ticket.heat_ticket_number} has been closed via ENS; please check your email for a more detailed breakdown."
                         )
-                      rescue Twilio::REST::RequestError => e
-                        if e.code == 21604
+                      rescue Twilio::REST::TwilioError => e
+                        #if e.code == 21604
                           puts e.message
-                        end
+                        #end
                       end
                     end
                 end
