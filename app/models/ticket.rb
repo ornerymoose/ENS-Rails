@@ -63,6 +63,7 @@ class Ticket < ActiveRecord::Base
       puts "file variable: #{file}"
       tickets = Ticket.where('created_at >= ?', created_at)
       puts "Ticket Count: #{tickets.count}"
+      puts "created_at: #{created_at}"
       CSV.open(file, 'w') do |writer|
         writer << ['Created By','Heat Ticket #','Event Category','Event Severity','Customers Affected','Services Affected','Problem Statement','Created At','Completed At','Duration','Resolution','Event Status','Bridge Number','Additional Notes','Category Name','Properties']
         tickets.each do |t|
