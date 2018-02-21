@@ -5,6 +5,7 @@ namespace :report do
   task :send_to_noc, [:timeframe] => :environment do |t, args|
     ActiveRecord::Base.establish_connection(:production)
     args.with_defaults(:timeframe => (Date.today - 7.days))
+    puts "args timeframe: #{args[:timeframe]}"
     Ticket.get_tickets_for_range("ens_report", args[:timeframe])
     ticket = TicketsController.new
     ticket.send_reports
